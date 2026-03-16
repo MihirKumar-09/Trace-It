@@ -6,12 +6,12 @@ export default function Navbar() {
   return (
     <nav
       id="home"
-      className="w-full border border-red-100 drop-shadow-xs px-3 sm:px-4 md:px-6"
+      className="w-full border-b border-black/20 drop-shadow-xs px-3 sm:px-4 md:px-6"
       style={{ background: "#F7F8FA" }}
     >
       {/* Main Container */}
       <div className="flex justify-between items-center">
-        <img src="/images/logo.png" alt="Main_Logo" className="w-24" />
+        <img src="/images/logo.png" alt="Main_Logo" className="w-16 md:w-18" />
 
         {/* Desktop Button */}
         <div className="hidden md:flex gap-6">

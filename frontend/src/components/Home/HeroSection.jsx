@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function HeroSection() {
   return (
     <div
@@ -16,9 +17,11 @@ export default function HeroSection() {
           finder in there neighborhood. Safe, secure, and community-driven.
         </p>
         <div className="flex  flex-col md:flex-row gap-3 md:gap-6">
-          <button className="bg-black text-white font-medium text-sm w-40 px-3 py-3 rounded-md cursor-pointer hover:bg-blue-500 transition">
-            Report Lost Item
-          </button>
+          <Link to="/lost-item">
+            <button className="bg-black text-white font-medium text-sm w-40 px-3 py-3 rounded-md cursor-pointer hover:bg-blue-500 transition">
+              Report Lost Item
+            </button>
+          </Link>
           <button className="bg-white text-black font-medium text-sm border border-blue-200 w-42 px-3 py-3 rounded-md cursor-pointer hover:bg-blue-500 hover:text-white transition">
             I Found Something
           </button>
