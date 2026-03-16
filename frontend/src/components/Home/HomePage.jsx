@@ -4,6 +4,7 @@ import RecentReport from "./RecentReport";
 import HowWork from "./HowWork";
 import SafetySection from "./SafetySection";
 import SuccessStories from "./SuccessStories";
+import Community from "./Community";
 export default function HomePage() {
   return (
     <>
@@ -13,6 +14,7 @@ export default function HomePage() {
       <HowWork />
       <SafetySection />
       <SuccessStories />
+      <Community />
     </>
   );
 }
