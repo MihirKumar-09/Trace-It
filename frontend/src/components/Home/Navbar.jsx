@@ -1,6 +1,7 @@
 import { Button } from "@radix-ui/themes";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
@@ -11,7 +12,13 @@ export default function Navbar() {
     >
       {/* Main Container */}
       <div className="flex justify-between items-center">
-        <img src="/images/logo.png" alt="Main_Logo" className="w-16 md:w-18" />
+        <Link to="/">
+          <img
+            src="/images/logo.png"
+            alt="Main_Logo"
+            className="w-16 md:w-18"
+          />
+        </Link>
 
         {/* Desktop Button */}
         <div className="hidden md:flex gap-6">

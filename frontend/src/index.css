@@ -8,7 +8,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/*! Floating hero image */
+/*! Floating hero image(Home page) */
 .floating {
   animation: float 3s ease-in-out infinite;
 }
@@ -21,4 +21,13 @@ html {
   50% {
     transform: translateY(-10px);
   }
+}
+
+/*! Hide scroll bar in lost page category section */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
