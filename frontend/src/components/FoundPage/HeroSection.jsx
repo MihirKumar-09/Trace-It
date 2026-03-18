@@ -20,9 +20,11 @@ export default function HeroSection() {
           owners. Every report counts.
         </p>
         <div className="flex flex-col md:flex-row gap-3 md:gap-6 w-full md:w-auto">
-          <button className="flex gap-2 bg-orange-500 text-white px-4 py-3 rounded-xl font-medium w-fit cursor-pointer hover:scale-103 transition">
-            <CirclePlus /> <span>Report Found Item</span>
-          </button>
+          <Link to="/found-item-form">
+            <button className="flex gap-2 bg-orange-500 text-white px-4 py-3 rounded-xl font-medium w-fit cursor-pointer hover:scale-103 transition">
+              <CirclePlus /> <span>Report Found Item</span>
+            </button>
+          </Link>
 
           <Link to="/lost-item">
             <button className="bg-white px-4 py-3 rounded-xl font-medium border border-gray-300 w-fit cursor-pointer hover:scale-103 transition">

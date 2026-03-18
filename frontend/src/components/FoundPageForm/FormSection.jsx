@@ -1,14 +1,20 @@
-import { CalendarCheck, Camera, SendHorizontal, Timer } from "lucide-react";
+import {
+  CalendarCheck,
+  Camera,
+  SendHorizontal,
+  ShieldAlert,
+  Timer,
+} from "lucide-react";
 export default function LostReportForm() {
   return (
     <section className="px-3 sm:px-5 md:px-12 py-10 text-center bg-[#F8F6F6]">
       <div>
         <h1 className="text-black font-bold text-3xl md:text-4xl mb-2 text-center mt-2 md:mt-10">
-          Lost Something?
+          Report a Found Item
         </h1>
         <p className="text-center mt-4 text-gray-500 text-sm md:text-base">
-          Fill in the details below to help our community identify and return
-          your missing property.
+          Help return lost belongings to there rightful owner by reporting what
+          you found.
         </p>
       </div>
       <div className="flex justify-center mt-10 w-full ">
@@ -20,7 +26,7 @@ export default function LostReportForm() {
                 1
               </span>
               <span className="font-medium text-lg md:text-xl">
-                Item Information
+                Item Details
               </span>
             </div>
             <div className="flex flex-col gap-2 text-left mt-5">
@@ -30,7 +36,7 @@ export default function LostReportForm() {
               <input
                 type="text"
                 id="name"
-                placeholder="e.g. Midnight Blue Leather Wallet"
+                placeholder="e.g. Blue iPhone 13, Brown Leather Wallet"
                 className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none"
               />
             </div>
@@ -71,7 +77,7 @@ export default function LostReportForm() {
                 <input
                   type="text"
                   id="color"
-                  placeholder="e.g. Navy Blue"
+                  placeholder="e.g. Midnight Blue, Silver"
                   className="border border-gray-300 rounded-lg p-3 focus:outline-none w-full"
                 />
               </div>
@@ -83,13 +89,13 @@ export default function LostReportForm() {
               <input
                 type="text"
                 id="brand"
-                placeholder="e.g. Apple iPhone 13 Pro"
+                placeholder="e.g. Apple, Samsung, etc..."
                 className="border border-gray-300 rounded-lg w-90 md:w-170 p-3 focus:outline-none"
               />
             </div>
             <div className="flex flex-col gap-2  mt-5">
               <label htmlFor="myFile" className="font-medium text-md text-left">
-                Upload Photos
+                Item Photos
               </label>
               <label
                 htmlFor="fileUpload"
@@ -99,8 +105,8 @@ export default function LostReportForm() {
                   <Camera />
                 </span>
                 <p className="text-sm text-gray-600 font-medium">
-                  <span className="text-orange-500">Click to upload</span> or
-                  drag and drop
+                  Drag and drop photos here, or{" "}
+                  <span className="text-orange-500">browse</span>
                 </p>
                 <p className="text-xs text-gray-400">PNG, JPG up to 10MB</p>
               </label>
@@ -114,17 +120,17 @@ export default function LostReportForm() {
                 2
               </span>
               <span className="font-medium text-lg md:text-xl">
-                Where Did You Lose It?
+                Where Did You Find It?
               </span>
             </div>
             <div className="flex flex-col gap-2 text-left mt-5">
               <label htmlFor="name" className="font-medium text-md">
-                Location Description
+                Location Found
               </label>
               <input
                 type="text"
                 id="name"
-                placeholder="e.g. Central Park Mall, Food Court"
+                placeholder="e.g. Search for a location or address"
                 className="border border-gray-300 rounded-lg w-full p-3 focus:outline-none"
               />
             </div>
@@ -134,7 +140,7 @@ export default function LostReportForm() {
             <div className="flex gap-4 mt-5">
               <div className="flex flex-col gap-2 flex-1 text-left">
                 <label htmlFor="date" className="font-medium text-md">
-                  Lost Date
+                  Found Date
                 </label>
                 <div className="relative">
                   <input
@@ -187,7 +193,7 @@ export default function LostReportForm() {
               </label>
               <textarea
                 id="description"
-                placeholder="Please provide any unique identify features, content inside (if it's a bag/wallet), or special circumstance..."
+                placeholder="Provide details like condition, unique scratches, or engravings. Do not mention highly specific unique identifiers like special numbers here"
                 className="border border-gray-300 rounded-lg w-full h-30 md:h-40 p-3 focus:outline-none"
               />
             </div>
@@ -199,13 +205,13 @@ export default function LostReportForm() {
                 4
               </span>
               <span className="font-medium text-lg md:text-xl">
-                Contact Details
+                Safe Contact Method
               </span>
             </div>
             <div className="flex gap-4 mt-5">
               <div className="flex flex-col gap-2 flex-1 text-left">
                 <label htmlFor="number" className="font-medium text-md">
-                  Phone Number
+                  Phone Number (Optional)
                 </label>
                 <input
                   type="number"
@@ -222,12 +228,28 @@ export default function LostReportForm() {
                 <input
                   type="email"
                   id="email"
-                  placeholder="alex@example.com"
+                  placeholder="john@example.com"
                   className="border border-gray-300 rounded-lg p-3 focus:outline-none w-full"
                 />
               </div>
             </div>
           </div>
+          {/* Warning Session */}
+          <div className="border border-orange-300 rounded-2xl flex gap-5 pl-4 py-5 pr-10 md:pr-20 bg-[#FFFBEB] mb-10">
+            <span>
+              <ShieldAlert color="#EC5B13" />
+            </span>
+            <span className="text-left">
+              <h6 className="text-[#993402] font-medium">Security Notice</h6>
+              <p className="text-[#EC5B13] mt-2">
+                To protect the rightful owner, do not revel highly sensitive
+                details publicly (Like passcode or specific contents inside a
+                wallet). Use these details later to verify the owner during
+                private messaging
+              </p>
+            </span>
+          </div>
+          {/* Buttons */}
           <div className="flex w-full justify-between items-center">
             <button className="group relative border border-gray-300 px-8 md:px-12 py-3 rounded-xl font-medium bg-white overflow-hidden transition-all duration-300">
               <span className="absolute inset-0 bg-gray-100 scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100"></span>
@@ -237,7 +259,7 @@ export default function LostReportForm() {
             </button>
             <button className="group flex items-center px-8 md:px-12 py-3 rounded-xl font-medium bg-[#EC5B13] text-white overflow-hidden relative transition-all duration-300 hover:shadow-lg">
               <span className="transition-all duration-300 group-hover:-translate-x-2">
-                Submit Lost Item Report
+                Submit Found Item Report
               </span>
 
               <SendHorizontal className="ml-3 transition-all duration-300 group-hover:translate-x-3 group-hover:scale-110" />
