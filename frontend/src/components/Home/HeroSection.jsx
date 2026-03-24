@@ -10,7 +10,7 @@ export default function HeroSection() {
           Lost Something?
         </h1>
         <h1 className="text-3xl md:text-5xl font-bold bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-          Let the Community Help You.
+          Let the Community Help You
         </h1>
         <p className="text-gray-600 mt-3 mb-3" style={{ fontFamily: "revert" }}>
           Lost Link connects people who have lost precious belonging with honest
