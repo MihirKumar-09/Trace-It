@@ -25,30 +25,36 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex gap-6 items-center font-medium">
+        <div className="hidden md:flex gap-6 items-center">
           {user ? (
             <>
-              <Link to="/" className="relative group px-1 py-1">
+              <Link to="/" className="relative group px-1 py-1 font-medium">
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   Home
                 </span>
 
                 <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/items" className="relative group px-1 py-1">
+              <Link
+                to="/items"
+                className="relative group px-1 py-1 font-medium"
+              >
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   All Items
                 </span>
                 <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/my-report" className="relative group px-1 py-1">
+              <Link
+                to="/my-report"
+                className="relative group px-1 py-1 font-medium"
+              >
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   My Report
                 </span>
                 <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
               {/* Account drop down */}
-              <div className="relative">
+              <div className="relative font-medium">
                 <div
                   onClick={() => setAccountOptions((prev) => !prev)}
                   className="cursor-pointer relative group py-1 px-1"
@@ -63,43 +69,33 @@ export default function Navbar() {
                   <div className="absolute top-10 right-0 bg-white shadow-lg rounded-md py-4 pl-4 min-w-37.5 flex flex-col gap-6 z-9999">
                     <Link
                       to="/profile"
-                      className="hover:text-blue-500 flex
-                    items-center gap-2"
+                      className="hover:text-blue-500 flex items-center gap-2"
                     >
-                      <span>
-                        <User />
-                      </span>
+                      <User size={18} />
                       Profile
                     </Link>
+
                     <Link
                       to="/claims"
-                      className="hover:text-blue-500 flex
-                    items-center gap-2"
+                      className="hover:text-blue-500 flex items-center gap-2"
                     >
-                      <span>
-                        <Gift />
-                      </span>
+                      <Gift size={18} />
                       My Claim
                     </Link>
+
                     <Link
                       to="/wishlist"
-                      className="hover:text-blue-500 flex
-                    items-center gap-2"
+                      className="hover:text-blue-500 flex items-center gap-2"
                     >
-                      <span>
-                        <Heart />
-                      </span>
+                      <Heart size={18} />
                       Wishlist
                     </Link>
 
                     <button
                       onClick={logout}
-                      className="text-left text-red-500 hover:text-red-600 cursor-pointer flex
-                    items-center gap-2"
+                      className="text-red-500 hover:text-red-800 text-left flex items-center gap-2 cursor-pointer"
                     >
-                      <span>
-                        <Power />
-                      </span>
+                      <Power size={18} />
                       Logout
                     </button>
                   </div>
