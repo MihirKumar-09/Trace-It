@@ -83,18 +83,18 @@ export default function PhoneAuth({ onSuccess, error }) {
             <input
               type="tel"
               placeholder=" +91 (123-456-789-0)"
-              className="border border-gray-300 p-3 rounded-md outline-none"
+              className="p-3 border border-gray-300 rounded-md outline-none"
               value={phone}
               onChange={(e) => {
                 setPhone(e.target.value.replace(/\D/g, ""));
               }}
             />
-            {error && <p className="text-red-500 text-sm -mt-2">{error}</p>}
+            {error && <p className="-mt-2 text-sm text-red-500">{error}</p>}
           </span>
 
           <button
             onClick={sendOtp}
-            className="bg-blue-600 text-white py-2 rounded-md"
+            className="py-2 text-white bg-blue-600 rounded-md cursor-pointer"
           >
             {loading ? "Sending..." : "Send OTP"}
           </button>
@@ -109,21 +109,21 @@ export default function PhoneAuth({ onSuccess, error }) {
           <input
             type="text"
             placeholder="Enter 6-digit OTP"
-            className="border p-3 rounded-md outline-none text-center tracking-widest"
+            className="p-3 tracking-widest text-center border rounded-md outline-none"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
           />
 
           <button
             onClick={verifyOtp}
-            className="bg-green-600 text-white py-2 rounded-md"
+            className="py-2 text-white bg-green-600 rounded-md cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify OTP"}
           </button>
 
           <button
             onClick={() => setStep("phone")}
-            className="text-sm text-blue-500"
+            className="text-sm text-blue-500 cursor-pointer"
           >
             Change Number
           </button>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { cn } from "../../lib/utils.js";
 
 export default function PhoneAuth() {
   const [step, setStep] = useState("phone");
@@ -80,7 +81,7 @@ export default function PhoneAuth() {
           <button
             onClick={sendOtp}
             disabled={loading}
-            className="bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify"}
           </button>
@@ -109,7 +110,7 @@ export default function PhoneAuth() {
           <button
             onClick={verifyOtp}
             disabled={loading}
-            className="bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
+            className="bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition disabled:opacity-50 cursor-pointer"
           >
             {loading ? "Verifying..." : "Verify OTP"}
           </button>
@@ -119,9 +120,12 @@ export default function PhoneAuth() {
             <button
               onClick={sendOtp}
               disabled={timer > 0}
-              className={`${
-                timer > 0 ? "text-gray-400" : "text-blue-600 hover:underline"
-              }`}
+              className={cn(
+                `${
+                  timer > 0 ? "text-gray-400" : "text-blue-600 hover:underline"
+                }`,
+                "cursor-pointer",
+              )}
             >
               {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
             </button>
@@ -131,7 +135,7 @@ export default function PhoneAuth() {
                 setStep("phone");
                 setOtp("");
               }}
-              className="text-gray-500 hover:underline"
+              className="text-gray-500 cursor-pointer hover:underline"
             >
               Change Number
             </button>
