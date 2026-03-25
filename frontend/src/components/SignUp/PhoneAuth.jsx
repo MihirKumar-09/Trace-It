@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { auth } from "../../firebase.js";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 export default function PhoneAuth() {
   const [step, setStep] = useState("phone");
@@ -6,18 +8,49 @@ export default function PhoneAuth() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // 👉 Fake API calls (replace later)
+  const setupRecaptcha = () => {
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+    }
+
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible",
+      },
+    );
+  };
+
   const sendOtp = async () => {
     if (!phone || phone.length < 10) {
       alert("Enter valid phone number");
       return;
     }
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      setLoading(true);
+
+      setupRecaptcha();
+
+      const formattedPhone = phone.startsWith("+91") ? phone : `+91${phone}`;
+
+      const appVerifier = window.recaptchaVerifier;
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        formattedPhone,
+        appVerifier,
+      );
+
+      window.confirmationResult = confirmationResult;
       setStep("otp");
-    }, 1000);
+    } catch (err) {
+      console.log("OTP ERROR:", err);
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const verifyOtp = async () => {
@@ -26,24 +59,32 @@ export default function PhoneAuth() {
       return;
     }
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      setLoading(true);
+
+      const result = await window.confirmationResult.confirm(otp);
+      console.log("User:", result.user);
+
       setStep("verified");
-    }, 1000);
+    } catch (err) {
+      console.log("VERIFY ERROR:", err);
+      alert("Invalid OTP");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="w-full max-w-md mx-auto mt-6">
-      {/* STEP 1: PHONE */}
+      {/* STEP 1 */}
       {step === "phone" && (
         <div className="flex flex-col gap-4">
           <input
             type="tel"
-            placeholder="+91 123-456-7890"
+            placeholder="Enter phone (123-456-789-0)"
             className="border border-gray-300 p-3 rounded-md outline-none"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
           />
 
           <button
@@ -55,10 +96,10 @@ export default function PhoneAuth() {
         </div>
       )}
 
-      {/* STEP 2: OTP */}
+      {/* STEP 2 */}
       {step === "otp" && (
         <div className="flex flex-col gap-4">
-          <p className="text-sm text-gray-500">OTP sent to {phone}</p>
+          <p className="text-sm text-gray-500">OTP sent to +91{phone}</p>
 
           <input
             type="text"
@@ -84,12 +125,15 @@ export default function PhoneAuth() {
         </div>
       )}
 
-      {/* STEP 3: VERIFIED */}
+      {/* STEP 3 */}
       {step === "verified" && (
         <div className="text-center">
-          <h3 className="text-green-600 font-semibold">✅ Phone Verified</h3>
+          <p className="text-green-600">Verified Successfully</p>
         </div>
       )}
+
+      {/* REQUIRED */}
+      <div id="recaptcha-container"></div>
     </div>
   );
 }
