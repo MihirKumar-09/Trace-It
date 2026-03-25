@@ -28,7 +28,7 @@ export default function Navbar() {
 
       {/* Search */}
       <span
-        className="hidden md:flex gap-3 border p-3 w-160 rounded-full"
+        className="hidden gap-3 p-3 border rounded-full md:flex w-160"
         style={{ backgroundColor: "#F1F5F9" }}
       >
         <Search style={{ width: "4%" }} />
@@ -36,12 +36,12 @@ export default function Navbar() {
           type="text"
           placeholder="Search items like phone, wallet, keys"
           style={{ width: "calc(100% - 4%)", backgroundColor: "#F1F5F9" }}
-          className="bg-transparent outline-none flex-1"
+          className="flex-1 bg-transparent outline-none"
         />
       </span>
 
       {/* Right Section */}
-      <div className="flex gap-8 items-center relative">
+      <div className="relative flex items-center gap-8">
         <Bell />
         <MessageSquare />
 
@@ -52,12 +52,12 @@ export default function Navbar() {
           </button>
 
           {menu && (
-            <div className="absolute right-0 top-10 bg-white shadow-lg rounded-md py-4 px-4 min-w-45 flex flex-col gap-4 z-50">
+            <div className="absolute right-0 z-50 flex flex-col gap-4 px-4 py-4 bg-white rounded-md shadow-lg top-10 min-w-45">
               {user ? (
                 <>
                   <Link
                     to="/profile"
-                    className="hover:text-blue-500 flex items-center gap-2"
+                    className="flex items-center gap-2 hover:text-blue-500"
                   >
                     <User size={18} />
                     Profile
@@ -65,7 +65,7 @@ export default function Navbar() {
 
                   <Link
                     to="/claims"
-                    className="hover:text-blue-500 flex items-center gap-2"
+                    className="flex items-center gap-2 hover:text-blue-500"
                   >
                     <Gift size={18} />
                     My Claim
@@ -73,7 +73,7 @@ export default function Navbar() {
 
                   <Link
                     to="/wishlist"
-                    className="hover:text-blue-500 flex items-center gap-2"
+                    className="flex items-center gap-2 hover:text-blue-500"
                   >
                     <Heart size={18} />
                     Wishlist
@@ -81,7 +81,7 @@ export default function Navbar() {
 
                   <button
                     onClick={logout}
-                    className="text-red-500 hover:text-red-800 text-left flex items-center gap-2 cursor-pointer"
+                    className="flex items-center gap-2 text-left text-red-500 cursor-pointer hover:text-red-800"
                   >
                     <Power size={18} />
                     Logout

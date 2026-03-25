@@ -3,10 +3,10 @@ import { Button } from "@radix-ui/themes";
 export default function Footer() {
   return (
     <footer
-      className="px-3 sm:px-5 md:px-12 pt-20 flex gap-10 flex-wrap justify-between text-white"
+      className="flex flex-wrap justify-between gap-10 px-3 pt-20 text-white sm:px-5 md:px-12"
       style={{ background: "#0F172A" }}
     >
-      <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-between">
+      <div className="flex flex-col flex-wrap justify-between gap-10 md:flex-row">
         <div className="flex-1 flex flex-col gap-3 min-w-37.5">
           <a href="/">
             <img
@@ -21,7 +21,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="flex-1 min-w-30 ">
-          <h5 className="text-md font-medium mb-4">Quick Links</h5>
+          <h5 className="mb-4 font-medium text-md">Quick Links</h5>
           <ul>
             <a href="#">
               <li>About Us</li>
@@ -38,7 +38,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className="flex flex-col flex-1 min-w-30">
-          <h5 className="text-md font-medium mb-4">Connect</h5>
+          <h5 className="mb-4 font-medium text-md">Connect</h5>
           <span className="flex gap-4">
             <Twitter className="cursor-pointer" />
             <Facebook className="cursor-pointer" />
@@ -46,30 +46,27 @@ export default function Footer() {
           </span>
         </div>
         <div className="flex flex-col flex-1 min-w-30">
-          <h5 className="text-md font-medium mb-4">Stay Informed</h5>
+          <h5 className="mb-4 font-medium text-md">Stay Informed</h5>
           <div
             style={{ background: "#1E293B" }}
-            className="px-3 py-3 rounded-2xl flex items-center gap-2"
+            className="flex items-center gap-2 px-3 py-3 rounded-2xl"
           >
             <input
               type="email"
               placeholder="Your email address"
-              className="bg-transparent outline-none focus:outline-none focus:ring-0 flex-1 min-w-0"
+              className="flex-1 min-w-0 bg-transparent outline-none focus:outline-none focus:ring-0"
             />
             <Button className="shrink-0">Join</Button>
           </div>
         </div>
       </div>
-      <div className="border-t w-full flex justify-between items-center py-4">
+      <div className="flex items-center justify-between w-full py-4 border-t">
         <p className="text-sm">
           &copy; Lost Link Technology Inc. All rights reserved.
         </p>
         <a
           href="#home"
-          className="p-2 bg-blue-400 rounded-full inline-flex items-center justify-center
-            transition-all duration-300 ease-out
-            hover:scale-110 hover:-translate-y-1 hover:shadow-lg
-            cursor-pointer"
+          className="inline-flex items-center justify-center p-2 transition-all duration-300 ease-out bg-blue-400 rounded-full cursor-pointer hover:scale-110 hover:-translate-y-1 hover:shadow-lg"
         >
           <ArrowUp color="#0F172A" />
         </a>

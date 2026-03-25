@@ -3,23 +3,23 @@ import { Download, ShieldCheck, Users } from "lucide-react";
 export default function SafetySection() {
   return (
     <section
-      className="px-3 sm:px-5 md:px-12 py-10 text-white"
+      className="px-3 py-10 text-white sm:px-5 md:px-12"
       style={{ backgroundColor: "#0F172A" }}
     >
-      <h1 className="text-4xl font-bold mb-3 text-center">
+      <h1 className="mb-3 text-4xl font-bold text-center">
         Your Safety is Our Priority
       </h1>
-      <p className="text-sm md:text-base text-gray-400 text-center">
+      <p className="text-sm text-center text-gray-400 md:text-base">
         We've Lost Link with security features to ensure every reunion is safe.
       </p>
 
-      <div className="flex flex-col md:flex-row  gap-4 md:gap-8 mt-10">
+      <div className="flex flex-col gap-4 mt-10 md:flex-row md:gap-8">
         <div
-          className="border border-white/10 p-6 rounded-2xl shadow-xl"
+          className="p-6 border shadow-xl border-white/10 rounded-2xl"
           style={{ backgroundColor: "#162033" }}
         >
           <ShieldCheck size={35} color="#155DFC" />
-          <h4 className="font-medium text-sm md:text-xl mb-2 mt-3">
+          <h4 className="mt-3 mb-2 text-sm font-medium md:text-xl">
             Identity Verification
           </h4>
           <p className="text-gray-400">
@@ -28,11 +28,11 @@ export default function SafetySection() {
           </p>
         </div>
         <div
-          className="border border-white/10 p-6 rounded-2xl shadow-xl"
+          className="p-6 border shadow-xl border-white/10 rounded-2xl"
           style={{ backgroundColor: "#162033" }}
         >
           <Download size={35} color="#155DFC" />
-          <h4 className="font-medium text-sm md:text-xl mb-2 mt-3">
+          <h4 className="mt-3 mb-2 text-sm font-medium md:text-xl">
             Secure Claiming
           </h4>
           <p className="text-gray-400">
@@ -41,11 +41,11 @@ export default function SafetySection() {
           </p>
         </div>
         <div
-          className="border border-white/10 p-6 rounded-2xl shadow-xl"
+          className="p-6 border shadow-xl border-white/10 rounded-2xl"
           style={{ backgroundColor: "#162033" }}
         >
           <Users size={35} color="#155DFC" />
-          <h4 className="font-medium text-sm md:text-xl mb-2 mt-3">
+          <h4 className="mt-3 mb-2 text-sm font-medium md:text-xl">
             Community Moderation
           </h4>
           <p className="text-gray-400">

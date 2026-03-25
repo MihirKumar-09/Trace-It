@@ -11,10 +11,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className="w-full border-b border-black/20 drop-shadow-xs px-3 sm:px-4 md:px-6 relative z-9999"
+      className="relative w-full px-3 border-b border-black/20 drop-shadow-xs sm:px-4 md:px-6 z-9999"
       style={{ background: "#F7F8FA" }}
     >
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         {/* Logo */}
         <Link to="/">
           <img
@@ -25,10 +25,10 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex gap-6 items-center">
+        <div className="items-center hidden gap-6 md:flex">
           {user ? (
             <>
-              <Link to="/" className="relative group px-1 py-1 font-medium">
+              <Link to="/" className="relative px-1 py-1 font-medium group">
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   Home
                 </span>
@@ -37,7 +37,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/items"
-                className="relative group px-1 py-1 font-medium"
+                className="relative px-1 py-1 font-medium group"
               >
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   All Items
@@ -46,7 +46,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/my-report"
-                className="relative group px-1 py-1 font-medium"
+                className="relative px-1 py-1 font-medium group"
               >
                 <span className="transition-colors duration-200 group-hover:text-blue-600">
                   My Report
@@ -57,7 +57,7 @@ export default function Navbar() {
               <div className="relative font-medium">
                 <div
                   onClick={() => setAccountOptions((prev) => !prev)}
-                  className="cursor-pointer relative group py-1 px-1"
+                  className="relative px-1 py-1 cursor-pointer group"
                 >
                   <span className="transition-colors duration-200 group-hover:text-blue-600">
                     Account
@@ -69,7 +69,7 @@ export default function Navbar() {
                   <div className="absolute top-10 right-0 bg-white shadow-lg rounded-md py-4 pl-4 min-w-37.5 flex flex-col gap-6 z-9999">
                     <Link
                       to="/profile"
-                      className="hover:text-blue-500 flex items-center gap-2"
+                      className="flex items-center gap-2 hover:text-blue-500"
                     >
                       <User size={18} />
                       Profile
@@ -77,7 +77,7 @@ export default function Navbar() {
 
                     <Link
                       to="/claims"
-                      className="hover:text-blue-500 flex items-center gap-2"
+                      className="flex items-center gap-2 hover:text-blue-500"
                     >
                       <Gift size={18} />
                       My Claim
@@ -85,7 +85,7 @@ export default function Navbar() {
 
                     <Link
                       to="/wishlist"
-                      className="hover:text-blue-500 flex items-center gap-2"
+                      className="flex items-center gap-2 hover:text-blue-500"
                     >
                       <Heart size={18} />
                       Wishlist
@@ -93,7 +93,7 @@ export default function Navbar() {
 
                     <button
                       onClick={logout}
-                      className="text-red-500 hover:text-red-800 text-left flex items-center gap-2 cursor-pointer"
+                      className="flex items-center gap-2 text-left text-red-500 cursor-pointer hover:text-red-800"
                     >
                       <Power size={18} />
                       Logout
@@ -127,7 +127,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="flex flex-col gap-4 w-full mb-5 mt-4 px-1">
+        <div className="flex flex-col w-full gap-4 px-1 mt-4 mb-5">
           {user ? (
             <>
               {/* Main Links */}
@@ -142,10 +142,10 @@ export default function Navbar() {
               </Link>
 
               {/* Account Section */}
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-3">
+              <div className="p-3 bg-white border border-gray-200 shadow-sm rounded-xl">
                 <button
                   onClick={() => setAccountOptions((prev) => !prev)}
-                  className="flex justify-between items-center w-full font-medium"
+                  className="flex items-center justify-between w-full font-medium"
                 >
                   <span>Account</span>
                   <ChevronDown
@@ -157,7 +157,7 @@ export default function Navbar() {
                 </button>
 
                 {accountOptions && (
-                  <div className="mt-3 flex flex-col gap-3 pl-2">
+                  <div className="flex flex-col gap-3 pl-2 mt-3">
                     <Link
                       to="/profile"
                       onClick={() => setIsMenuOpen(false)}
@@ -202,13 +202,13 @@ export default function Navbar() {
           ) : (
             <>
               <Link to="/signIn">
-                <button className="w-full border p-3 rounded-xl active:scale-95">
+                <button className="w-full p-3 border rounded-xl active:scale-95">
                   Login
                 </button>
               </Link>
 
               <Link to="/signUp">
-                <button className="w-full bg-blue-600 text-white p-3 rounded-xl active:scale-95">
+                <button className="w-full p-3 text-white bg-blue-600 rounded-xl active:scale-95">
                   Sign Up
                 </button>
               </Link>

@@ -27,34 +27,34 @@ const stories = [
 export default function SuccessStories() {
   return (
     <section
-      className="px-3 sm:px-5 md:px-12 py-10 text-center"
+      className="px-3 py-10 text-center sm:px-5 md:px-12"
       style={{ backgroundColor: "#F8FAFC" }}
     >
-      <h3 className="text-3xl mt-5 mb-8 font-semibold">Success Stories</h3>
-      <div className="flex flex-col md:flex-row  gap-4 md:gap-8">
+      <h3 className="mt-5 mb-8 text-3xl font-semibold">Success Stories</h3>
+      <div className="flex flex-col gap-4 md:flex-row md:gap-8">
         {stories.map((story, key) => (
           <div
             key={key}
-            className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300"
+            className="p-6 transition-all duration-300 bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md"
           >
             <div className="flex items-center gap-4">
-              <span className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden shrink-0">
+              <span className="w-10 h-10 overflow-hidden rounded-full md:w-14 md:h-14 shrink-0">
                 <img
                   src={story.image}
                   alt="Profile"
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
               </span>
 
               <div className="text-left">
                 <h4 className="font-semibold text-gray-800">{story.name}</h4>
-                <p className="text-sm text-gray-500 text-left">
+                <p className="text-sm text-left text-gray-500">
                   <span>{story.helpType}</span> : <span>{story.item}</span>
                 </p>
               </div>
             </div>
 
-            <p className="text-sm text-gray-600 mt-3 leading-relaxed text-left">
+            <p className="mt-3 text-sm leading-relaxed text-left text-gray-600">
               "{story.description}"
             </p>
           </div>

@@ -23,14 +23,14 @@ export default function RecentReport() {
     fetchData();
   }, []);
   return (
-    <section className="px-3 sm:px-5 md:px-12 py-10">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <section className="px-3 py-10 sm:px-5 md:px-12">
+      <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
         {/* Text Section */}
         <div>
-          <h4 className="font-semibold text-lg sm:text-xl md:text-2xl">
+          <h4 className="text-lg font-semibold sm:text-xl md:text-2xl">
             Recently Reported
           </h4>
-          <p className="text-gray-500 mt-1 text-sm sm:text-base">
+          <p className="mt-1 text-sm text-gray-500 sm:text-base">
             Stay updated with the latest items reported in your area
           </p>
         </div>
@@ -42,27 +42,27 @@ export default function RecentReport() {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {allReports.map((report) => (
           <div
             key={report._id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden"
+            className="overflow-hidden transition bg-white shadow-sm rounded-xl hover:shadow-md"
           >
             {/* Image */}
-            <div className="w-full h-90 sm:h-70 md:h-62 lg:h-56 overflow-hidden">
+            <div className="w-full overflow-hidden h-90 sm:h-70 md:h-62 lg:h-56">
               <img
                 src={report.image}
                 alt="Report"
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
 
             {/* Content */}
             <div className="p-4 space-y-2">
-              <h6 className="font-semibold text-lg">{report.name}</h6>
+              <h6 className="text-lg font-semibold">{report.name}</h6>
 
               {/* Location */}
-              <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
                 <MapPin size={16} />
                 <span>
                   {report.location.city}, {report.location.area}
@@ -99,7 +99,7 @@ export default function RecentReport() {
               <hr className="text-gray-300" />
 
               {/* Footer */}
-              <div className="flex justify-between items-center text-sm">
+              <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-500">
                   {new Date(report.dateTime).toLocaleTimeString("en-IN", {
                     hour: "2-digit",
