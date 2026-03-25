@@ -36,6 +36,8 @@ passport.use(
           ],
         });
         console.log("Google Profile:", profile);
+
+        // Create new User and store it in DB
         if (!user) {
           user = await User.create({
             googleId: profile.id,
@@ -43,6 +45,13 @@ passport.use(
             email: profile.emails[0]?.value || "",
             avatar: profile.photos[0]?.value || "",
           });
+        } else {
+          // update missing fields
+          if (!user.googleId) user.googleId = profile.id;
+          if (!user.avatar) user.googleId = profile.photos?.[0]?.value;
+          if (!user.name) user.name - profile.displayName;
+
+          await user.save();
         }
         return done(null, user); //Only user no token
       } catch (err) {

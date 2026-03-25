@@ -2,7 +2,7 @@ import { useState } from "react";
 import { auth } from "../../firebase.js";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
-export default function PhoneAuth() {
+export default function PhoneAuth({ onSuccess, error }) {
   const [step, setStep] = useState("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -63,8 +63,8 @@ export default function PhoneAuth() {
       setLoading(true);
 
       const result = await window.confirmationResult.confirm(otp);
-      console.log("User:", result.user);
-
+      const phoneNumber = result.user.phoneNumber;
+      onSuccess(phoneNumber); // send to parent
       setStep("verified");
     } catch (err) {
       console.log("VERIFY ERROR:", err);
@@ -75,17 +75,22 @@ export default function PhoneAuth() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-6">
+    <div className="w-full max-w-md mx-auto mt-6 ">
       {/* STEP 1 */}
       {step === "phone" && (
         <div className="flex flex-col gap-4">
-          <input
-            type="tel"
-            placeholder="Enter phone (123-456-789-0)"
-            className="border border-gray-300 p-3 rounded-md outline-none"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-          />
+          <span className="flex flex-col gap-3">
+            <input
+              type="tel"
+              placeholder=" +91 (123-456-789-0)"
+              className="border border-gray-300 p-3 rounded-md outline-none"
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value.replace(/\D/g, ""));
+              }}
+            />
+            {error && <p className="text-red-500 text-sm -mt-2">{error}</p>}
+          </span>
 
           <button
             onClick={sendOtp}
