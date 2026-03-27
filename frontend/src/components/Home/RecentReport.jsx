@@ -108,11 +108,17 @@ export default function RecentReport() {
                   , {new Date(report.dateTime).getFullYear()}
                 </span>
 
-                <Link to={`/lostItem/${report._id}`}>
-                  <span className="flex items-center gap-1 text-[#3358D4] cursor-pointer font-medium hover:text-blue-400">
+                {report.status !== "closed" ? (
+                  <Link to={`/lostItem/${report._id}`}>
+                    <span className="flex items-center gap-1 text-[#3358D4] cursor-pointer font-medium hover:text-blue-400">
+                      Details <MoveRight size={16} />
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="flex items-center gap-1 text-gray-400 cursor-not-allowed font-medium">
                     Details <MoveRight size={16} />
                   </span>
-                </Link>
+                )}
               </div>
             </div>
           </div>
