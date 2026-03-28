@@ -9,13 +9,13 @@ export default function RecentFound() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://192.168.1.8:8080/reports/foundItems?limit=8",
+          "http://192.168.1.8:8080/reports/allReports?reportType=found&limit=8",
         );
         if (!res.ok) {
           throw new Error("Failed");
         }
         const data = await res.json();
-        setAllReport(data.foundReports);
+        setAllReport(data.allReports);
       } catch (err) {
         console.log(err);
       }
@@ -28,7 +28,7 @@ export default function RecentFound() {
         {/* Text Section */}
         <div>
           <h4 className="font-semibold text-lg sm:text-xl md:text-2xl">
-            Recently Lost Items
+            Recently Found Items
           </h4>
           <p className="text-gray-500 mt-1 text-sm sm:text-base">
             Stay updated with the latest items reported in your area

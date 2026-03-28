@@ -6,7 +6,20 @@ const router = express.Router();
 router.get("/allReports", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit) || 15;
-    const allReports = await Report.find({})
+    const { status, reportType } = req.query;
+
+    let filter = {};
+
+    // Status Filter
+    if (status && status !== "all") {
+      filter.status = status;
+    }
+    // Report type;
+    if (reportType) {
+      filter.reportType = reportType;
+    }
+
+    const allReports = await Report.find(filter)
       .sort({ createdAt: -1 })
       .limit(limit);
     if (allReports.length === 0) {
@@ -15,46 +28,6 @@ router.get("/allReports", async (req, res) => {
     return res.status(200).json({ message: "Get all reports", allReports });
   } catch (err) {
     return res.status(500).json({ message: "Failed to fetch all reports" });
-  }
-});
-
-//!==========GET -> LOST ITEMS==========
-router.get("/lostItems", async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit) || 15;
-    const lostReports = await Report.find({ reportType: "lost" })
-      .sort({ createdAt: -1 })
-      .limit(limit);
-    if (lostReports.length === 0) {
-      return res.status(404).json({ message: "Lost Item not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "Get all lostReport items", lostReports });
-  } catch {
-    return res
-      .status(500)
-      .json({ message: "Failed to fetch lost report items" });
-  }
-});
-
-//!==========GET -> FOUND ITEMS==========
-router.get("/foundItems", async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit) || 15;
-    const foundReports = await Report.find({ reportType: "found" })
-      .sort({ createdAt: -1 })
-      .limit(limit);
-    if (foundReports.length === 0) {
-      return res.status(404).json({ message: "Lost Item not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "Get all lostReport items", foundReports });
-  } catch {
-    return res
-      .status(500)
-      .json({ message: "Failed to fetch found report items" });
   }
 });
 

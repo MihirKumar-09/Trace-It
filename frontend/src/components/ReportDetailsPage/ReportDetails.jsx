@@ -4,6 +4,7 @@ import ImageSection from "./ImageSection";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SimilarReport from "./SimilarReport";
 export default function ReportDetails() {
   const [productDetails, setProductDetails] = useState(null);
   const { id } = useParams();
@@ -34,6 +35,7 @@ export default function ReportDetails() {
         <ImageSection productDetails={productDetails} />
         <DetailsSection productDetails={productDetails} />
       </section>
+      <SimilarReport />
     </>
   );
 }

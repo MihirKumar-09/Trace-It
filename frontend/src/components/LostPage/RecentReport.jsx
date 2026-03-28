@@ -9,13 +9,13 @@ export default function RecentReport() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://192.168.1.8:8080/reports/lostItems?limit=8",
+          "http://192.168.1.8:8080/reports/allReports?reportType=lost&limit=8",
         );
         if (!res.ok) {
           throw new Error("Failed");
         }
         const data = await res.json();
-        setAllReport(data.lostReports);
+        setAllReport(data.allReports);
       } catch (err) {
         console.log(err);
       }
