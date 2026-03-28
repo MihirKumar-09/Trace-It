@@ -9,9 +9,10 @@ export default function ReportDetails() {
   const [productDetails, setProductDetails] = useState(null);
   const { id } = useParams();
   useEffect(() => {
-    if (!id) {
-      return "Id not exist";
-    }
+    if (!id) return;
+
+    window.scrollTo(0, 0);
+    setProductDetails(null);
     const fetchDetails = async () => {
       try {
         const res = await fetch(
