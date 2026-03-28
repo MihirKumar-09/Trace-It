@@ -24,8 +24,6 @@ export default function RightSection({ active }) {
     }
   };
   return (
-    <section className="px-3 py-6 sm:px-5 md:px-12 w-full">
-      {renderSection()}
-    </section>
+    <section className="py-6 px-4 md:px-6 w-full">{renderSection()}</section>
   );
 }

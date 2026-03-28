@@ -21,17 +21,21 @@ const options = [
 
 export default function LeftSection({ active, setActive }) {
   const { user } = useAuth();
+  const defaultAvatar = "/images/Profile/profile.jpeg";
+  console.log(user.name);
+  console.log(user.avatar);
 
   if (!user) return <div>Loading...</div>;
 
   return (
-    <section className="w-64 md:w-80 px-3 py-6 md:px-8 hidden md:flex flex-col justify-between">
+    <section className="border w-64 md:w-80 px-3 py-6 md:px-8 hidden md:flex flex-col justify-between">
       <div className="rounded-xl overflow-hidden">
         <div className="flex items-center gap-3 bg-white px-2 py-4 shadow-lg rounded-xl">
           <img
-            src={user?.avatar?.trim() || "/images/Profile/profile.jpeg"}
+            src={user?.avatar || defaultAvatar}
             alt="profile"
             className="w-12 h-12 rounded-full object-cover border border-gray-200"
+            referrerPolicy="no-referrer"
           />
           <div>
             <h6 className="font-semibold">{user.name}</h6>
