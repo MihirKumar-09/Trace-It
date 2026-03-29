@@ -22,24 +22,22 @@ const options = [
 export default function LeftSection({ active, setActive }) {
   const { user } = useAuth();
   const defaultAvatar = "/images/Profile/profile.jpeg";
-  console.log(user.name);
-  console.log(user.avatar);
 
   if (!user) return <div>Loading...</div>;
 
   return (
-    <section className="border w-64 md:w-80 px-3 py-6 md:px-8 hidden md:flex flex-col justify-between">
-      <div className="rounded-xl overflow-hidden">
-        <div className="flex items-center gap-3 bg-white px-2 py-4 shadow-lg rounded-xl">
+    <section className="hidden md:flex flex-col justify-between box-border w-[320px] min-w-[320px] max-w-[320px] border px-4 py-6">
+      <div className="w-full rounded-xl overflow-hidden">
+        <div className="flex items-center gap-3 bg-white px-3 py-4 shadow-lg rounded-xl w-full">
           <img
             src={user?.avatar || defaultAvatar}
             alt="profile"
-            className="w-12 h-12 rounded-full object-cover border border-gray-200"
+            className="w-12 h-12 rounded-full object-cover border border-gray-200 shrink-0"
             referrerPolicy="no-referrer"
           />
-          <div>
-            <h6 className="font-semibold">{user.name}</h6>
-            <p className="text-sm text-gray-500">{user.email}</p>
+          <div className="min-w-0">
+            <h6 className="font-semibold truncate">{user.name}</h6>
+            <p className="text-sm text-gray-500 truncate">{user.email}</p>
           </div>
         </div>
 
@@ -53,21 +51,21 @@ export default function LeftSection({ active, setActive }) {
                 key={option.name}
                 onClick={() => setActive(option.name)}
                 className={cn(
-                  "flex items-center gap-3 rounded-xl p-3 cursor-pointer transition",
+                  "w-full flex items-center gap-3 rounded-xl p-3 cursor-pointer transition-all box-border",
                   isActive
                     ? "bg-blue-50 text-blue-600 shadow-md font-medium"
                     : "bg-transparent text-black hover:bg-gray-200",
                 )}
               >
-                <Icon size={20} />
-                <span className="text-[15px]">{option.name}</span>
+                <Icon size={20} className="shrink-0" />
+                <span className="text-[15px] truncate">{option.name}</span>
               </div>
             );
           })}
         </div>
       </div>
 
-      <div>
+      <div className="mt-6">
         <p style={{ fontFamily: "MadeWith" }} className="text-[26px]">
           <span className="flex items-center gap-2">
             Made With
