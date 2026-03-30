@@ -83,6 +83,7 @@ router.post("/newLostReport", upload.single("image"), async (req, res) => {
         phone: phone?.toString().trim() || "",
         email: email.trim().toLowerCase(),
       },
+      userId: req.user._id,
       reportType: "lost",
       status: "open",
     });

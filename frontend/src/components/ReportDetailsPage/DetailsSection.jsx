@@ -10,8 +10,11 @@ import {
 } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 import { formatDistanceToNowStrict } from "date-fns";
+import { useState } from "react";
 export default function DetailsSection({ productDetails }) {
+  const [showEmail, setShowEmail] = useState(false);
   const type = productDetails?.reportType;
+
   if (!productDetails) {
     return <p>Loading...</p>;
   }
@@ -122,9 +125,9 @@ export default function DetailsSection({ productDetails }) {
         </div>
 
         {/* Description */}
-        <div className="mt-10 text-left">
-          <h4 className="text-sm font-medium md:text-md">ITEM DESCRIPTION</h4>
-          <p className="px-3 text-sm">{productDetails.description}</p>
+        <div className="flex items-center mt-10 text-left">
+          <h4 className="text-sm font-medium md:text-md">DESCRIPTION:</h4>
+          <p className="px-3 text-base">{productDetails.description}</p>
         </div>
 
         {/* Buttons */}
@@ -138,12 +141,17 @@ export default function DetailsSection({ productDetails }) {
               : "This is Mine (Claim item)"}
           </button>
         </div>
-        <div className="flex items-center justify-center mt-8 text-center border-gray-200 cursor-pointer border-3 rounded-xl">
-          <span>
-            <MessageSquare color="black" />
-          </span>
+        <div
+          onClick={() => setShowEmail((prev) => !prev)}
+          className="flex items-center justify-center mt-8 text-center border-gray-200 cursor-pointer border-3 rounded-xl"
+        >
+          {!showEmail && (
+            <span>
+              <MessageSquare color="black" />
+            </span>
+          )}
           <button className="p-3 text-lg font-medium text-black cursor-pointer">
-            Contact Details
+            {showEmail ? productDetails?.contact?.email : "Contact Details"}
           </button>
         </div>
       </div>
