@@ -71,6 +71,11 @@ const ReportSchema = new mongoose.Schema(
       enum: ["open", "closed"], // This enum state show our report status ;
       default: "open",
     },
+    userId: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true },
 );

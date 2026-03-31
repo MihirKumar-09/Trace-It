@@ -1,5 +1,6 @@
 import express from "express";
 import Report from "../models/reportSchema.js";
+import isLoggedIn from "../middleware/isLogin.js";
 const router = express.Router();
 
 //! =========GET -> ALL REPORTS==========
@@ -44,6 +45,32 @@ router.get("/lostItem/:id", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Failed to fetch report details", err });
+  }
+});
+
+//!============DELETE THERE OWN REPORT==========
+router.delete("/deleteReport/:id", isLoggedIn, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const report = await Report.findById(id);
+    if (!report) {
+      return res.status(403).json({ message: "Report not found" });
+    }
+
+    // Owner check;
+    if (report.userId.toString() !== req.user._id.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to delete this report" });
+    }
+
+    await Report.findByIdAndDelete(id);
+
+    return res.status(200).json({ message: "Report delete successfully" });
+  } catch (err) {
+    console.log("Delete Report Error : ", err);
+
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 

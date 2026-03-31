@@ -7,14 +7,47 @@ import {
   MessageSquare,
   Shapes,
   TimerReset,
+  Trash,
 } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 import { formatDistanceToNowStrict } from "date-fns";
 import { useState } from "react";
+import { useAuth } from "../../Context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 export default function DetailsSection({ productDetails }) {
   const [showEmail, setShowEmail] = useState(false);
   const type = productDetails?.reportType;
+  const { user } = useAuth();
+  // check owner;
+  const isOwner = user?._id?.toString() === productDetails?.userId?.toString();
+  const navigate = useNavigate();
+  // Handle delete report with proper owner check;
+  const handleDeleteReport = async () => {
+    try {
+      const confirmDelete = window.confirm("Are you sure to delete this ?");
+      if (!confirmDelete) return;
 
+      const res = await fetch(
+        `http://localhost:8080/reports/deleteReport/${productDetails._id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to delete report");
+      }
+
+      alert("report delete successfully");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      alert(err.message || "Something went wrong");
+    }
+  };
   if (!productDetails) {
     return <p>Loading...</p>;
   }
@@ -44,8 +77,19 @@ export default function DetailsSection({ productDetails }) {
               ITEM
             </p>
           </span>
-          <span>
-            <Heart className="text-gray-400" />
+          <span className="flex gap-5">
+            <span className="cursor-pointer">
+              <Heart />
+            </span>
+
+            {isOwner && (
+              <span
+                onClick={handleDeleteReport}
+                className="cursor-pointer hover:text-red-500 transition"
+              >
+                <Trash />
+              </span>
+            )}
           </span>
         </div>
 
