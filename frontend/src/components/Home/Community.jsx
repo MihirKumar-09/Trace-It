@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
+
 export default function Community() {
+  const { user } = useAuth();
   return (
     <section className="flex items-center justify-center px-3 py-10 text-center bg-white sm:px-5 md:px-12">
       <div
@@ -18,11 +21,20 @@ export default function Community() {
           the network that brings it home
         </p>
 
-        <Link to="/signIn">
-          <button className="px-6 py-3 mt-5 font-semibold bg-white border cursor-pointer border-white/15 rounded-2xl">
+        {user ? (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="px-6 py-3 mt-5 font-semibold bg-white border cursor-pointer border-white/15 rounded-2xl"
+          >
             Get Started Now
           </button>
-        </Link>
+        ) : (
+          <Link to="/signIn">
+            <button className="px-6 py-3 mt-5 font-semibold bg-white border cursor-pointer border-white/15 rounded-2xl">
+              Get Started Now
+            </button>
+          </Link>
+        )}
       </div>
     </section>
   );
