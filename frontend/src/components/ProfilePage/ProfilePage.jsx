@@ -1,51 +1,42 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../../Context/AuthContext";
-import { useLocation } from "react-router-dom";
-import Navbar from "../Navbar";
+import { useState } from "react";
+import Navbar from "../../components/Navbar";
 import LeftSection from "./LeftSection";
-import MobileBottomNav from "./MobileBottomNav";
 import RightSection from "./RightSection";
 import QuickActions from "./QuickActions";
 import SafetyFirst from "./SafetyFirst";
+import MobileBottomNav from "./MobileBottomNav";
 
 export default function ProfilePage() {
   const [active, setActive] = useState("Dashboard");
-  const { user } = useAuth();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state?.activeTab) {
-      setActive(location.state.activeTab);
-    }
-  }, [location.state]);
-
-  if (!user) {
-    return (
-      <div className="h-screen bg-[#F7F9FB]">
-        <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-72px)]">
-          <p className="text-gray-500 text-lg">Loading...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="h-screen flex flex-col bg-[#F7F9FB]">
-      <Navbar />
+    <div className="h-dvh overflow-hidden bg-[linear-gradient(135deg,#081225_0%,#0B1730_25%,#0D1B38_55%,#101D3A_100%)]">
+      {/* Fixed navbar height */}
+      <div className="h-22 shrink-0">
+        <Navbar />
+      </div>
 
-      <div className="flex flex-1 h-[calc(100vh-72px)] w-full">
+      {/* Remaining screen after navbar */}
+      <div className="flex h-[calc(100dvh-88px)] overflow-hidden">
         <LeftSection active={active} setActive={setActive} />
 
-        <div className="flex flex-1 flex-col lg:flex-row w-full overflow-y-scroll no-scrollbar">
-          <div className="flex-1 min-w-0">
+        {/* Desktop content */}
+        <div className="hidden md:flex flex-1 overflow-hidden">
+          {/* Center content */}
+          <div className="flex-1 overflow-y-auto px-6 py-6">
             <RightSection active={active} />
           </div>
 
-          <div className="w-full lg:w-[320px] shrink-0">
+          {/* Right sidebar */}
+          <div className="w-[320px] shrink-0 overflow-y-auto no-scrollbar px-4 py-6">
             <QuickActions />
             <SafetyFirst />
           </div>
+        </div>
+
+        {/* Mobile content */}
+        <div className="flex md:hidden flex-1 overflow-y-auto pb-20">
+          <RightSection active={active} />
         </div>
       </div>
 
