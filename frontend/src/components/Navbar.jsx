@@ -206,16 +206,21 @@ export default function Navbar() {
                         </motion.div>
 
                         <motion.div {...menuItemHover}>
-                          <Link
-                            to="/claims"
-                            onClick={() => setMenu(false)}
-                            className="flex items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenu(false);
+                              navigate("/profile", {
+                                state: { activeTab: "My Claim" },
+                              });
+                            }}
+                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                           >
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF3E8]">
                               <Gift size={17} />
                             </div>
                             <span className="font-medium">My Claim</span>
-                          </Link>
+                          </button>
                         </motion.div>
 
                         <motion.div {...menuItemHover}>

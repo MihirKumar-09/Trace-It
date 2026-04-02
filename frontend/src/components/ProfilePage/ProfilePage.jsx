@@ -22,12 +22,10 @@ export default function ProfilePage() {
 
         {/* Desktop content */}
         <div className="hidden md:flex flex-1 overflow-hidden">
-          {/* Center content */}
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <RightSection active={active} />
           </div>
 
-          {/* Right sidebar */}
           <div className="w-[320px] shrink-0 overflow-y-auto no-scrollbar px-4 py-6">
             <QuickActions />
             <SafetyFirst />
@@ -35,7 +33,7 @@ export default function ProfilePage() {
         </div>
 
         {/* Mobile content */}
-        <div className="flex md:hidden flex-1 overflow-y-auto pb-20">
+        <div className="flex md:hidden flex-1 overflow-y-auto pb-27.5">
           <RightSection active={active} />
         </div>
       </div>
