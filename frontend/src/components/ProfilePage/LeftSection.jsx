@@ -4,7 +4,7 @@ import {
   LayoutDashboard,
   Archive,
   BadgeCheck,
-  MessageSquare,
+  Gift,
   Bookmark,
   Settings,
   Heart,
@@ -14,7 +14,7 @@ const options = [
   { name: "Dashboard", icon: LayoutDashboard },
   { name: "My Lost Items", icon: Archive },
   { name: "My Found Items", icon: BadgeCheck },
-  { name: "Message", icon: MessageSquare },
+  { name: "My Claim", icon: Gift },
   { name: "Saved Items", icon: Bookmark },
   { name: "Settings", icon: Settings },
 ];

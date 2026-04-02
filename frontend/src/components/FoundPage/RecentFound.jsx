@@ -197,11 +197,13 @@ export default function RecentFound() {
                 {/* Footer */}
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500 font-medium">
-                    {new Date(report.dateTime).toLocaleTimeString("en-IN", {
+                    {new Date(report?.dateTime).toLocaleString("en-IN", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
-                    , {new Date(report.dateTime).getFullYear()}
                   </span>
 
                   {report.status !== "closed" ? (

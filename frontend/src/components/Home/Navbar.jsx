@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,6 +21,7 @@ export default function Navbar() {
   const [mobileAccountOpen, setMobileAccountOpen] = useState(false);
 
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const desktopMenuRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -310,16 +311,21 @@ export default function Navbar() {
                             whileHover={{ x: 4 }}
                             transition={{ duration: 0.18 }}
                           >
-                            <Link
-                              to="/wishlist"
-                              onClick={() => setDesktopAccountOpen(false)}
-                              className="flex items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setDesktopAccountOpen(false);
+                                navigate("/profile", {
+                                  state: { activeTab: "Saved Items" },
+                                });
+                              }}
+                              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                             >
                               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFECEF]">
                                 <Heart size={17} />
                               </div>
                               <span className="font-medium">Wishlist</span>
-                            </Link>
+                            </button>
                           </motion.div>
 
                           <div className="my-2 h-px bg-slate-200" />
@@ -574,19 +580,22 @@ export default function Navbar() {
                               whileHover={{ x: 4 }}
                               transition={{ duration: 0.18 }}
                             >
-                              <Link
-                                to="/wishlist"
+                              <button
+                                type="button"
                                 onClick={() => {
                                   setMobileAccountOpen(false);
                                   setIsMenuOpen(false);
+                                  navigate("/profile", {
+                                    state: { activeTab: "Saved Items" },
+                                  });
                                 }}
-                                className="flex items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                                className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                               >
                                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFECEF]">
                                   <Heart size={17} />
                                 </div>
                                 <span className="font-medium">Wishlist</span>
-                              </Link>
+                              </button>
                             </motion.div>
 
                             <div className="my-2 h-px bg-slate-200" />

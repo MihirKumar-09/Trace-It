@@ -1,7 +1,7 @@
 import DashboardSection from "./DashboardSection";
 import MyLostItemSection from "./MyLostItemsSection";
 import MyFoundItemSection from "./MyFoundItemsSection";
-import MessageSection from "./MessageSection";
+import MyClaimSection from "./MyClaimSection";
 import SavedItemSection from "./SavedItemSection";
 import SettingSection from "./SettingSection";
 export default function RightSection({ active }) {
@@ -13,8 +13,8 @@ export default function RightSection({ active }) {
         return <MyLostItemSection />;
       case "My Found Items":
         return <MyFoundItemSection />;
-      case "Message":
-        return <MessageSection />;
+      case "My Claim":
+        return <MyClaimSection />;
       case "Saved Items":
         return <SavedItemSection />;
       case "Settings":

@@ -10,13 +10,14 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isProfilePage = location.pathname === "/profile";
   const [menu, setMenu] = useState(false);
   const { user, logout } = useAuth();
@@ -72,7 +73,6 @@ export default function Navbar() {
     >
       <div className="px-3 sm:px-4 md:px-6" id="/home">
         <div className="flex items-center justify-between gap-3 py-3">
-          {/* Logo */}
           <Link to="/" className="shrink-0">
             <motion.div
               whileHover={{ scale: 1.04 }}
@@ -95,7 +95,6 @@ export default function Navbar() {
             </motion.div>
           </Link>
 
-          {/* Search */}
           {!isProfilePage && (
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -124,7 +123,6 @@ export default function Navbar() {
             </motion.div>
           )}
 
-          {/* Right Section */}
           <div
             className="relative flex items-center gap-2 md:gap-3"
             ref={menuRef}
@@ -146,7 +144,6 @@ export default function Navbar() {
               <MessageSquare size={19} className="text-slate-700" />
             </motion.button>
 
-            {/* User Dropdown Trigger */}
             <motion.button
               onClick={() => setMenu((prev) => !prev)}
               whileHover={{ y: -2, scale: 1.02 }}
@@ -174,7 +171,6 @@ export default function Navbar() {
               />
             </motion.button>
 
-            {/* Dropdown */}
             <AnimatePresence>
               {menu && (
                 <motion.div
@@ -223,16 +219,21 @@ export default function Navbar() {
                         </motion.div>
 
                         <motion.div {...menuItemHover}>
-                          <Link
-                            to="/wishlist"
-                            onClick={() => setMenu(false)}
-                            className="flex items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenu(false);
+                              navigate("/profile", {
+                                state: { activeTab: "Saved Items" },
+                              });
+                            }}
+                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                           >
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFECEF]">
                               <Heart size={17} />
                             </div>
                             <span className="font-medium">Wishlist</span>
-                          </Link>
+                          </button>
                         </motion.div>
 
                         <div className="my-2 h-px bg-slate-200" />

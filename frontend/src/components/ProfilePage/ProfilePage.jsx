@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
+import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import LeftSection from "./LeftSection";
 import MobileBottomNav from "./MobileBottomNav";
@@ -10,6 +11,13 @@ import SafetyFirst from "./SafetyFirst";
 export default function ProfilePage() {
   const [active, setActive] = useState("Dashboard");
   const { user } = useAuth();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActive(location.state.activeTab);
+    }
+  }, [location.state]);
 
   if (!user) {
     return (
