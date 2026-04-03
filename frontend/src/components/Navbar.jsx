@@ -10,7 +10,12 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,10 +23,22 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isProfilePage = location.pathname === "/profile";
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const isReportsPage = /^\/reports\/[^/]+$/.test(location.pathname);
+
   const [menu, setMenu] = useState(false);
   const { user, logout } = useAuth();
   const menuRef = useRef(null);
+
+  // search state synced with URL
+  const [searchText, setSearchText] = useState(
+    searchParams.get("search") || "",
+  );
+
+  useEffect(() => {
+    setSearchText(searchParams.get("search") || "");
+  }, [searchParams]);
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -64,6 +81,35 @@ export default function Navbar() {
     transition: { duration: 0.18 },
   };
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchText(value);
+
+    const params = new URLSearchParams(searchParams);
+
+    if (value.trim()) {
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+
+    setSearchParams(params);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+
+    const params = new URLSearchParams();
+    if (searchText.trim()) {
+      params.set("search", searchText.trim());
+    }
+
+    navigate({
+      pathname: location.pathname,
+      search: params.toString(),
+    });
+  };
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -22 }}
@@ -95,8 +141,9 @@ export default function Navbar() {
             </motion.div>
           </Link>
 
-          {!isProfilePage && (
-            <motion.div
+          {isReportsPage && (
+            <motion.form
+              onSubmit={handleSearchSubmit}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.08, duration: 0.35 }}
@@ -113,36 +160,45 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search items like phone, wallet, keys"
+                  value={searchText}
+                  onChange={handleSearchChange}
                   className="flex-1 bg-transparent text-sm text-slate-700 placeholder:text-slate-400 outline-none"
                 />
 
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500">
+                <button
+                  type="submit"
+                  className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 cursor-pointer"
+                >
                   Search
-                </span>
+                </button>
               </motion.div>
-            </motion.div>
+            </motion.form>
           )}
 
           <div
             className="relative flex items-center gap-2 md:gap-3"
             ref={menuRef}
           >
-            <motion.button
-              whileHover={{ y: -2, scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
-            >
-              <Bell size={19} className="text-slate-700" />
-              <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-[#EC5B13]" />
-            </motion.button>
+            {user && (
+              <>
+                <motion.button
+                  whileHover={{ y: -2, scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <Bell size={19} className="text-slate-700" />
+                  <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-[#EC5B13]" />
+                </motion.button>
 
-            <motion.button
-              whileHover={{ y: -2, scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              className="hidden sm:flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
-            >
-              <MessageSquare size={19} className="text-slate-700" />
-            </motion.button>
+                <motion.button
+                  whileHover={{ y: -2, scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  className="hidden sm:flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+                >
+                  <MessageSquare size={19} className="text-slate-700" />
+                </motion.button>
+              </>
+            )}
 
             <motion.button
               onClick={() => setMenu((prev) => !prev)}
@@ -214,7 +270,7 @@ export default function Navbar() {
                                 state: { activeTab: "My Claim" },
                               });
                             }}
-                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                            className="cursor-pointer flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                           >
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF3E8]">
                               <Gift size={17} />
@@ -232,7 +288,7 @@ export default function Navbar() {
                                 state: { activeTab: "Saved Items" },
                               });
                             }}
-                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                            className="cursor-pointer flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                           >
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFECEF]">
                               <Heart size={17} />
@@ -249,7 +305,7 @@ export default function Navbar() {
                             setMenu(false);
                             logout();
                           }}
-                          className="flex items-center gap-3 rounded-2xl px-3 py-3 text-left text-red-500 transition hover:bg-red-50"
+                          className="cursor-pointer flex items-center gap-3 rounded-2xl px-3 py-3 text-left text-red-500 transition hover:bg-red-50"
                         >
                           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50">
                             <Power size={17} />
@@ -299,6 +355,40 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
         </div>
+
+        {isReportsPage && (
+          <motion.form
+            onSubmit={handleSearchSubmit}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.35 }}
+            className="pb-3 md:hidden"
+          >
+            <motion.div
+              whileHover={{ y: -1 }}
+              className="group relative flex w-full items-center gap-3 rounded-full border border-slate-200/80 bg-[#F8FAFC] px-4 py-3 shadow-[0_6px_20px_rgba(15,23,42,0.04)] transition-all focus-within:border-[#3358D4]/30 focus-within:bg-white focus-within:shadow-[0_10px_30px_rgba(51,88,212,0.10)]"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm transition group-focus-within:bg-[#EEF3FF]">
+                <Search size={18} className="text-slate-500" />
+              </div>
+
+              <input
+                type="text"
+                placeholder="Search items like phone, wallet, keys"
+                value={searchText}
+                onChange={handleSearchChange}
+                className="flex-1 bg-transparent text-sm text-slate-700 placeholder:text-slate-400 outline-none"
+              />
+
+              <button
+                type="submit"
+                className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-500 cursor-pointer"
+              >
+                Search
+              </button>
+            </motion.div>
+          </motion.form>
+        )}
       </div>
     </motion.nav>
   );

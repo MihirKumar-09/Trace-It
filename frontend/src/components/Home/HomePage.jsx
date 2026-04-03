@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "../Navbar.jsx";
 import HeroSection from "./HeroSection";
 import RecentReport from "./RecentReport";
 import HowWork from "./HowWork";
