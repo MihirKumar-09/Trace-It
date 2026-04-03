@@ -1,9 +1,13 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Filter, SlidersHorizontal, MapPin } from "lucide-react";
 
-export default function FilterSection() {
-  const [distance, setDistance] = useState(10);
+export default function FilterSection({ filters, setFilters }) {
+  const handleChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   return (
     <section className="px-3 sm:px-5 md:px-10 py-8 md:py-10">
@@ -13,12 +17,10 @@ export default function FilterSection() {
         transition={{ duration: 0.45, ease: "easeOut" }}
         className="relative overflow-hidden rounded-3xl border border-white/40 bg-white/70 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)]"
       >
-        {/* soft background glow */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(244,114,182,0.10),transparent_28%)]" />
 
         <div className="relative p-4 sm:p-5 md:p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            {/* left heading */}
             <div className="flex items-center gap-3">
               <motion.div
                 whileHover={{ rotate: 8, scale: 1.05 }}
@@ -38,16 +40,13 @@ export default function FilterSection() {
               </div>
             </div>
 
-            {/* badge */}
             <div className="hidden md:flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600">
               <SlidersHorizontal size={16} />
               Smart Filters
             </div>
           </div>
 
-          {/* filters */}
           <div className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-[1fr_1fr_1.2fr]">
-            {/* category */}
             <motion.div
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
@@ -59,12 +58,11 @@ export default function FilterSection() {
               <select
                 name="category"
                 id="category"
-                defaultValue=""
+                value={filters.category}
+                onChange={(e) => handleChange("category", e.target.value)}
                 className="w-full cursor-pointer bg-transparent text-sm font-medium text-gray-800 outline-none"
               >
-                <option value="" disabled>
-                  Select Category
-                </option>
+                <option value="">Select Category</option>
                 <option value="All">All</option>
                 <option value="Phones">Phones</option>
                 <option value="Tablets">Tablets</option>
@@ -83,7 +81,6 @@ export default function FilterSection() {
               </select>
             </motion.div>
 
-            {/* date */}
             <motion.div
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
@@ -95,12 +92,11 @@ export default function FilterSection() {
               <select
                 name="date"
                 id="date"
-                defaultValue=""
+                value={filters.date}
+                onChange={(e) => handleChange("date", e.target.value)}
                 className="w-full cursor-pointer bg-transparent text-sm font-medium text-gray-800 outline-none"
               >
-                <option value="" disabled>
-                  Select Date
-                </option>
+                <option value="">Select Date</option>
                 <option value="Today">Today</option>
                 <option value="Yesterday">Yesterday</option>
                 <option value="7days">7 Days</option>
@@ -108,7 +104,6 @@ export default function FilterSection() {
               </select>
             </motion.div>
 
-            {/* desktop distance */}
             <motion.div
               whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
@@ -120,7 +115,7 @@ export default function FilterSection() {
                 </label>
                 <div className="flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
                   <MapPin size={12} />
-                  {distance} km
+                  {filters.distance} km
                 </div>
               </div>
 
@@ -129,8 +124,10 @@ export default function FilterSection() {
                 min="1"
                 max="50"
                 step="1"
-                value={distance}
-                onChange={(e) => setDistance(Number(e.target.value))}
+                value={filters.distance}
+                onChange={(e) =>
+                  handleChange("distance", Number(e.target.value))
+                }
                 className="w-full cursor-pointer accent-orange-500"
               />
 
@@ -142,7 +139,6 @@ export default function FilterSection() {
             </motion.div>
           </div>
 
-          {/* mobile distance */}
           <motion.div
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
@@ -154,18 +150,15 @@ export default function FilterSection() {
             <select
               name="Distance"
               id="Distance"
-              defaultValue=""
+              value={String(filters.distance)}
+              onChange={(e) => handleChange("distance", Number(e.target.value))}
               className="w-full cursor-pointer bg-transparent text-sm font-medium text-gray-800 outline-none"
             >
-              <option value="" disabled>
-                Select Distance
-              </option>
-              <option value="1km">1 km</option>
-              <option value="2km">2 km</option>
-              <option value="5km">5 km</option>
-              <option value="10km">10 km</option>
-              <option value="50km">50 km</option>
-              <option value="Others">Others</option>
+              <option value="1">1 km</option>
+              <option value="2">2 km</option>
+              <option value="5">5 km</option>
+              <option value="10">10 km</option>
+              <option value="50">50 km</option>
             </select>
           </motion.div>
         </div>
