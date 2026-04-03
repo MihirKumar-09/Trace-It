@@ -85,24 +85,25 @@ export default function RecentFound() {
               Stay updated with the latest items reported in your area
             </motion.p>
           </div>
-
-          <motion.div
-            variants={cardVariants}
-            className="hidden md:block"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <button className="group relative overflow-hidden rounded-2xl bg-linear-to-r from-[#3358D4] via-[#4f6ef7] to-[#6b7cff] px-6 py-3 text-white font-medium shadow-[0_12px_30px_rgba(51,88,212,0.28)] transition cursor-pointer">
-              <span className="relative z-10 flex items-center gap-2">
-                View All
-                <MoveRight
-                  size={17}
-                  className="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </span>
-              <span className="absolute inset-0 translate-y-full bg-white/10 transition-transform duration-500 group-hover:translate-y-0" />
-            </button>
-          </motion.div>
+          <Link to="/reports/found">
+            <motion.div
+              variants={cardVariants}
+              className="hidden md:block"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <button className="group relative overflow-hidden rounded-2xl bg-linear-to-r from-[#3358D4] via-[#4f6ef7] to-[#6b7cff] px-6 py-3 text-white font-medium shadow-[0_12px_30px_rgba(51,88,212,0.28)] transition cursor-pointer">
+                <span className="relative z-10 flex items-center gap-2">
+                  View All
+                  <MoveRight
+                    size={17}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </span>
+                <span className="absolute inset-0 translate-y-full bg-white/10 transition-transform duration-500 group-hover:translate-y-0" />
+              </button>
+            </motion.div>
+          </Link>
         </motion.div>
 
         {/* Grid */}
@@ -227,14 +228,16 @@ export default function RecentFound() {
         </motion.div>
 
         {/* Mobile button */}
-        <motion.button
-          variants={cardVariants}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="block md:hidden w-full mt-7 rounded-2xl bg-linear-to-r from-[#3358D4] via-[#4f6ef7] to-[#6b7cff] text-white py-3.5 font-semibold shadow-[0_12px_30px_rgba(51,88,212,0.28)]"
-        >
-          View All
-        </motion.button>
+        <Link to="/reports/found">
+          <motion.button
+            variants={cardVariants}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="block md:hidden w-full mt-7 rounded-2xl bg-linear-to-r from-[#3358D4] via-[#4f6ef7] to-[#6b7cff] text-white py-3.5 font-semibold shadow-[0_12px_30px_rgba(51,88,212,0.28)]"
+          >
+            View All
+          </motion.button>
+        </Link>
       </motion.div>
     </section>
   );

@@ -234,7 +234,7 @@ export default function Navbar() {
                     onClick={() => setDesktopAccountOpen((prev) => !prev)}
                     whileHover={{ y: -2, scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
-                    className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2.5 py-2 shadow-sm transition hover:shadow-md"
+                    className="cursor-pointer  flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2.5 py-2 shadow-sm transition hover:shadow-md"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-[#EEF3FF] to-[#FDEEE7]">
                       <User size={18} className="text-slate-700" />
@@ -304,7 +304,7 @@ export default function Navbar() {
                                   state: { activeTab: "Settings" },
                                 });
                               }}
-                              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                              className="cursor-pointer flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                             >
                               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF3E8]">
                                 <Gift size={17} />
@@ -325,7 +325,7 @@ export default function Navbar() {
                                   state: { activeTab: "Saved Items" },
                                 });
                               }}
-                              className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
+                              className="cursor-pointer flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-slate-700 transition hover:bg-slate-50"
                             >
                               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFECEF]">
                                 <Heart size={17} />
@@ -343,7 +343,7 @@ export default function Navbar() {
                               setDesktopAccountOpen(false);
                               logout();
                             }}
-                            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-red-500 transition hover:bg-red-50"
+                            className="cursor-pointer flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-red-500 transition hover:bg-red-50"
                           >
                             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50">
                               <Power size={17} />
@@ -370,7 +370,7 @@ export default function Navbar() {
                       initial={false}
                       whileHover="hover"
                       whileTap="tap"
-                      className="group relative flex h-12 w-31.5 min-w-31.5 items-center justify-center overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 text-[15px] font-semibold text-slate-700 shadow-[0_10px_25px_rgba(15,23,42,0.07)] backdrop-blur-md"
+                      className="cursor-pointer group relative flex h-12 w-31.5 min-w-31.5 items-center justify-center overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 text-[15px] font-semibold text-slate-700 shadow-[0_10px_25px_rgba(15,23,42,0.07)] backdrop-blur-md"
                       variants={{
                         hover: {},
                         tap: {},
@@ -435,7 +435,7 @@ export default function Navbar() {
                       initial={false}
                       whileHover="hover"
                       whileTap="tap"
-                      className="group relative flex h-12 w-31.5 min-w-31.5 items-center justify-center overflow-hidden rounded-2xl border border-[#4C67E8]/20 bg-[linear-gradient(135deg,#5E7BFF_0%,#4C67E8_45%,#3D56D6_100%)] text-[15px] font-semibold text-white shadow-[0_14px_34px_rgba(76,103,232,0.32)]"
+                      className="cursor-pointer group relative flex h-12 w-31.5 min-w-31.5 items-center justify-center overflow-hidden rounded-2xl border border-[#4C67E8]/20 bg-[linear-gradient(135deg,#5E7BFF_0%,#4C67E8_45%,#3D56D6_100%)] text-[15px] font-semibold text-white shadow-[0_14px_34px_rgba(76,103,232,0.32)]"
                       variants={{
                         hover: {},
                         tap: {},

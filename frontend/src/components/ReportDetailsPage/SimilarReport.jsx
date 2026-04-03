@@ -205,7 +205,7 @@ export default function SimilarReport() {
 
                     <div className="mb-4 h-px bg-linear-to-r from-transparent via-gray-300 to-transparent" />
 
-                    <Link to={reportLink}>
+                    <Link to={`/lostItem/${report._id}`}>
                       <motion.div
                         whileHover={{ x: 4 }}
                         whileTap={{ scale: 0.98 }}

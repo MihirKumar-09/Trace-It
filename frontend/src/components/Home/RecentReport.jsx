@@ -81,20 +81,22 @@ export default function RecentReport() {
           </p>
         </div>
 
-        <motion.div className="hidden md:block" variants={fadeUp}>
-          <motion.button
-            whileHover={{
-              y: -3,
-              scale: 1.03,
-              boxShadow: "0px 16px 35px rgba(51,88,212,0.25)",
-            }}
-            whileTap={{ scale: 0.96 }}
-            transition={{ type: "spring", stiffness: 280, damping: 18 }}
-            className="px-6 py-3 text-sm font-semibold text-white transition rounded-xl shadow-lg cursor-pointer bg-[#3358D4] hover:bg-[#2c4cc2]"
-          >
-            View All
-          </motion.button>
-        </motion.div>
+        <Link to="/reports/all">
+          <motion.div className="hidden md:block" variants={fadeUp}>
+            <motion.button
+              whileHover={{
+                y: -3,
+                scale: 1.03,
+                boxShadow: "0px 16px 35px rgba(51,88,212,0.25)",
+              }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+              className="px-6 py-3 text-sm font-semibold text-white transition rounded-xl shadow-lg cursor-pointer bg-[#3358D4] hover:bg-[#2c4cc2]"
+            >
+              View All
+            </motion.button>
+          </motion.div>
+        </Link>
       </motion.div>
 
       {/* Cards */}
@@ -250,19 +252,21 @@ export default function RecentReport() {
       </motion.div>
 
       {/* Mobile Button */}
-      <motion.button
-        variants={fadeUp}
-        whileHover={{
-          y: -3,
-          scale: 1.02,
-          boxShadow: "0px 16px 35px rgba(51,88,212,0.25)",
-        }}
-        whileTap={{ scale: 0.96 }}
-        transition={{ type: "spring", stiffness: 280, damping: 18 }}
-        className="block w-full mt-6 p-3.5 text-white bg-[#3358D4] rounded-xl shadow-lg md:hidden font-semibold"
-      >
-        View All
-      </motion.button>
+      <Link to="/reports/all">
+        <motion.button
+          variants={fadeUp}
+          whileHover={{
+            y: -3,
+            scale: 1.02,
+            boxShadow: "0px 16px 35px rgba(51,88,212,0.25)",
+          }}
+          whileTap={{ scale: 0.96 }}
+          transition={{ type: "spring", stiffness: 280, damping: 18 }}
+          className="block w-full mt-6 p-3.5 text-white bg-[#3358D4] rounded-xl shadow-lg md:hidden font-semibold"
+        >
+          View All
+        </motion.button>
+      </Link>
     </motion.section>
   );
 }

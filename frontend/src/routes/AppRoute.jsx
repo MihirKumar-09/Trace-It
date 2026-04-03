@@ -9,6 +9,7 @@ import FoundPageForm from "../pages/FoundPageForm";
 import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import ProfilePage from "../pages/ProfilePage";
+import AllReportPage from "../pages/AllReportPage";
 export default function AppRoute() {
   return (
     <Routes>
@@ -21,6 +22,7 @@ export default function AppRoute() {
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/reports/:type" element={<AllReportPage />} />
       <Route path="*" element={<NoFound />} />
     </Routes>
   );
