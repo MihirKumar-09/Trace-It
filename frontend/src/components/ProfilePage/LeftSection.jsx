@@ -10,6 +10,7 @@ import {
   Heart,
   ChevronRight,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const options = [
   { name: "Dashboard", icon: LayoutDashboard },
@@ -39,28 +40,100 @@ export default function LeftSection({ active, setActive }) {
     >
       <div className="flex h-full min-h-0 w-full flex-col px-4 py-4 ">
         {/* Profile Card */}
-        <div className="shrink-0 rounded-3xl border border-white/15 bg-white/92 p-3 text-[#0F172A] shadow-[0_16px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
-          <div className="flex items-center gap-3 min-w-0">
+        <motion.div
+          initial={{ opacity: 0, y: 14, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          whileHover={{ y: -4, scale: 1.015 }}
+          className="
+    group relative shrink-0 overflow-hidden rounded-3xl
+    border border-white/10
+    bg-[linear-gradient(135deg,rgba(7,18,35,0.92)_0%,rgba(12,27,52,0.88)_45%,rgba(15,36,68,0.88)_100%)]
+    p-3.5 text-white
+    shadow-[0_18px_40px_rgba(0,0,0,0.30)]
+    backdrop-blur-xl
+  "
+        >
+          {/* top glow line */}
+          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-cyan-300/70 to-transparent" />
+
+          {/* animated background glow */}
+          <motion.div
+            animate={{
+              x: [0, 10, -6, 0],
+              y: [0, -8, 6, 0],
+              opacity: [0.3, 0.55, 0.3],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-cyan-400/15 blur-2xl"
+          />
+
+          <motion.div
+            animate={{
+              x: [0, -8, 10, 0],
+              y: [0, 8, -4, 0],
+              opacity: [0.25, 0.45, 0.25],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="pointer-events-none absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-blue-500/15 blur-2xl"
+          />
+
+          <div className="relative flex min-w-0 items-center gap-3">
             <div className="relative shrink-0">
-              <div className="absolute inset-0 rounded-full bg-pink-500/25 blur-md" />
+              {/* avatar glow */}
+              <motion.div
+                animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.65, 0.35] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 rounded-full bg-cyan-400/25 blur-md"
+              />
+
+              {/* animated ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                className="absolute -inset-0.75 rounded-full border border-cyan-300/30 border-t-cyan-200 border-r-blue-300/40"
+              />
+
               <img
                 src={user?.avatar || defaultAvatar}
                 alt="profile"
-                className="relative h-12 w-12 rounded-full border-2 border-white object-cover shadow-md"
+                className="relative h-13 w-13 rounded-full border-2 border-white/15 object-cover shadow-[0_8px_20px_rgba(0,0,0,0.35)]"
                 referrerPolicy="no-referrer"
               />
             </div>
 
-            <div className="min-w-0">
-              <h6 className="truncate text-[15px] font-bold leading-tight">
-                {user.name}
-              </h6>
-              <p className="mt-1 truncate text-[13px] leading-tight text-slate-500">
-                {user.email}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h6 className="truncate text-[15px] font-bold leading-tight text-white">
+                  {user?.name}
+                </h6>
+
+                <span className="inline-flex shrink-0 rounded-full border border-cyan-300/20 bg-cyan-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan-200">
+                  Active
+                </span>
+              </div>
+
+              <p className="mt-1 truncate text-[13px] leading-tight text-slate-300/80">
+                {user?.email}
               </p>
             </div>
           </div>
-        </div>
+
+          {/* hover sheen */}
+          <span className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-linear-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 group-hover:translate-x-[120%]" />
+        </motion.div>
 
         {/* Scrollable Menu Area */}
         <div className="mt-4 flex-1 min-h-0 flex flex-col overflow-hidden">
@@ -68,7 +141,7 @@ export default function LeftSection({ active, setActive }) {
             Overview
           </p>
 
-          <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-2 no-scrollbar">
+          <div className=" flex-1 min-h-0 overflow-y-auto pr-1 space-y-2 no-scrollbar">
             {options.map((option) => {
               const Icon = option.icon;
               const isActive = active === option.name;
@@ -79,7 +152,7 @@ export default function LeftSection({ active, setActive }) {
                   type="button"
                   onClick={() => setActive(option.name)}
                   className={cn(
-                    "group flex w-full items-center justify-between rounded-[20px] border px-3 py-3 text-left transition-all duration-300",
+                    "group flex cursor-pointer w-full items-center justify-between rounded-[20px] border px-3 py-3 text-left transition-all duration-300",
                     isActive
                       ? "border-cyan-400/30 bg-linear-to-r from-[#1677FF] to-[#13B8EA] text-white shadow-[0_14px_24px_rgba(19,120,255,0.34)]"
                       : "border-white/10 bg-white/6 text-white/90 hover:border-white/15 hover:bg-white/9",
