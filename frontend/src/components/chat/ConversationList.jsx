@@ -200,7 +200,7 @@ function HeaderIconCard() {
       className="relative"
     >
       <div className="absolute inset-0 rounded-[22px] bg-pink-400/18 blur-xl" />
-      <div className="relative flex h-16 w-16 items-center justify-center rounded-[22px] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
+      <div className="relative flex h-16 w-16 items-center justify-center rounded-[22px] bg-white/10 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.25)]">
         <div className="absolute inset-0 rounded-[22px] bg-[linear-gradient(135deg,rgba(255,255,255,0.16),rgba(255,255,255,0.03))]" />
         <div className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-linear-to-br from-pink-400 to-fuchsia-500 opacity-80 blur-[2px]" />
         <MessageCircleMore className="relative z-10 h-7 w-7 text-white" />
@@ -220,11 +220,11 @@ export default function ConversationList({
 
   if (loading) {
     return (
-      <div className="relative h-full min-h-155 overflow-hidden border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+      <div className="relative h-full min-h-155 overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
         <AnimatedSidebarBackground />
 
         <div className="relative z-10 p-5">
-          <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-5">
+          <div className="flex items-start justify-between gap-4 border-b pb-5">
             <div>
               <h2 className="text-3xl font-bold text-white">Messages</h2>
               <p className="mt-2 text-sm text-white/65">
@@ -254,7 +254,7 @@ export default function ConversationList({
   }
 
   return (
-    <div className="relative h-full min-h-155 overflow-hidden border border-white/10 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+    <div className="relative h-full min-h-155 overflow-hidden border shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
       <AnimatedSidebarBackground />
 
       <div className="relative z-10 flex h-full flex-col">

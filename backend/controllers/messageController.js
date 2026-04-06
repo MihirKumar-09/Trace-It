@@ -66,15 +66,16 @@ export const sendMessage = async (req, res) => {
         ? conversation.reportOwnerId
         : conversation.claimantId;
 
-    const message = await Message.create({
+    const newMessage = await Message.create({
       conversationId,
       senderId: currentUserId,
       receiverId,
-      text,
+      text: text.trim(),
       messageType: "normal",
+      isSeen: false,
     });
 
-    conversation.lastMessage = text;
+    conversation.lastMessage = text.trim();
     conversation.lastMessageAt = new Date();
     await conversation.save();
 
@@ -91,12 +92,12 @@ export const sendMessage = async (req, res) => {
     const io = getIO();
 
     if (receiverSocketId && io) {
-      io.to(receiverSocketId).emit("new_message", message);
+      io.to(receiverSocketId).emit("new_message", newMessage);
     }
 
     return res.status(201).json({
       message: "Message sent successfully",
-      newMessage: message,
+      newMessage,
     });
   } catch (error) {
     console.log("sendMessage error:", error);
@@ -109,18 +110,64 @@ export const markMessagesSeen = async (req, res) => {
     const currentUserId = req.user._id;
     const { conversationId } = req.params;
 
+    const conversation = await Conversation.findById(conversationId);
+    if (!conversation) {
+      return res.status(404).json({ message: "Conversation not found" });
+    }
+
+    const isParticipant =
+      String(conversation.claimantId) === String(currentUserId) ||
+      String(conversation.reportOwnerId) === String(currentUserId);
+
+    if (!isParticipant) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+
+    const unseenMessages = await Message.find({
+      conversationId,
+      receiverId: currentUserId,
+      isSeen: false,
+    }).select("_id senderId");
+
+    if (!unseenMessages.length) {
+      return res.status(200).json({
+        message: "No unseen messages",
+        updatedMessageIds: [],
+      });
+    }
+
+    const updatedMessageIds = unseenMessages.map((msg) => String(msg._id));
+
     await Message.updateMany(
       {
-        conversationId,
-        receiverId: currentUserId,
-        isSeen: false,
+        _id: { $in: updatedMessageIds },
       },
       {
         $set: { isSeen: true },
       },
     );
 
-    return res.status(200).json({ message: "Messages marked as seen" });
+    const io = getIO();
+
+    const senderIds = [
+      ...new Set(unseenMessages.map((msg) => String(msg.senderId))),
+    ];
+
+    senderIds.forEach((senderId) => {
+      const senderSocketId = getReceiverSocketId(senderId);
+
+      if (senderSocketId && io) {
+        io.to(senderSocketId).emit("messages_seen", {
+          conversationId: String(conversationId),
+          messageIds: updatedMessageIds,
+        });
+      }
+    });
+
+    return res.status(200).json({
+      message: "Messages marked as seen",
+      updatedMessageIds,
+    });
   } catch (error) {
     console.log("markMessagesSeen error:", error);
     return res.status(500).json({ message: "Server error" });

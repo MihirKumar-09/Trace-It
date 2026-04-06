@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   SendHorizontal,
@@ -78,10 +78,8 @@ function AnimatedRightPanelBackground() {
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {/* same family as left panel */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#170329_0%,#110220_26%,#0a0117_60%,#06010f_100%)]" />
 
-      {/* softer moving glows */}
       <motion.div
         animate={{
           x: [0, 34, -18, 0],
@@ -124,7 +122,6 @@ function AnimatedRightPanelBackground() {
         className="absolute -bottom-30 left-[26%] h-112 w-md rounded-full bg-violet-500/10 blur-3xl"
       />
 
-      {/* mesh like left panel but more subtle */}
       <motion.svg
         viewBox="0 0 400 800"
         className="absolute inset-0 h-full w-full opacity-32"
@@ -306,6 +303,26 @@ export default function ChatWindow({
       ? conversation?.reportOwnerId
       : conversation?.claimantId;
 
+  const markConversationSeenRealtime = useCallback(async () => {
+    if (!conversation?._id) return;
+
+    try {
+      const data = await markMessagesSeen(conversation._id);
+
+      if (data?.updatedMessageIds?.length) {
+        setMessages((prev) =>
+          prev.map((msg) =>
+            data.updatedMessageIds.includes(String(msg._id))
+              ? { ...msg, isSeen: true }
+              : msg,
+          ),
+        );
+      }
+    } catch (error) {
+      console.log("Mark seen realtime error:", error);
+    }
+  }, [conversation?._id]);
+
   useEffect(() => {
     if (!conversation?._id) return;
 
@@ -313,19 +330,19 @@ export default function ChatWindow({
       try {
         const data = await getMessages(conversation._id);
         setMessages(data.messages || []);
-        await markMessagesSeen(conversation._id);
+        await markConversationSeenRealtime();
       } catch (error) {
         console.log("Fetch messages error:", error);
       }
     };
 
     fetchMessages();
-  }, [conversation]);
+  }, [conversation?._id, markConversationSeenRealtime]);
 
   useEffect(() => {
     if (!socket || !conversation?._id) return;
 
-    const handleNewMessage = (incomingMessage) => {
+    const handleNewMessage = async (incomingMessage) => {
       const incomingConversationId = String(
         incomingMessage?.conversationId?._id || incomingMessage?.conversationId,
       );
@@ -342,14 +359,36 @@ export default function ChatWindow({
         if (alreadyExists) return prev;
         return [...prev, incomingMessage];
       });
+
+      const incomingSenderId = String(
+        incomingMessage?.senderId?._id || incomingMessage?.senderId,
+      );
+
+      const isIncomingFromOtherUser = incomingSenderId !== String(user?._id);
+
+      if (isIncomingFromOtherUser) {
+        await markConversationSeenRealtime();
+      }
+    };
+
+    const handleMessagesSeen = ({ conversationId, messageIds }) => {
+      if (String(conversationId) !== String(conversation?._id)) return;
+
+      setMessages((prev) =>
+        prev.map((msg) =>
+          messageIds.includes(String(msg._id)) ? { ...msg, isSeen: true } : msg,
+        ),
+      );
     };
 
     socket.on("new_message", handleNewMessage);
+    socket.on("messages_seen", handleMessagesSeen);
 
     return () => {
       socket.off("new_message", handleNewMessage);
+      socket.off("messages_seen", handleMessagesSeen);
     };
-  }, [socket, conversation?._id]);
+  }, [socket, conversation?._id, user?._id, markConversationSeenRealtime]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -465,7 +504,6 @@ export default function ChatWindow({
     >
       <AnimatedRightPanelBackground />
 
-      {/* header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -525,7 +563,6 @@ export default function ChatWindow({
         </div>
       </motion.div>
 
-      {/* messages */}
       <div className="relative z-10 flex-1 overflow-y-auto px-3 py-4 no-scrollbar md:px-5 md:py-5">
         {messages.length === 0 ? (
           <motion.div
@@ -560,7 +597,7 @@ export default function ChatWindow({
                 String(message.senderId?._id || message.senderId) ===
                 String(user?._id);
 
-              const isSeen = Boolean(message.seen || message.isSeen);
+              const isSeen = Boolean(message.isSeen);
 
               return (
                 <motion.div
@@ -681,7 +718,6 @@ export default function ChatWindow({
         </AnimatePresence>
       </div>
 
-      {/* input */}
       {conversation.status === "accepted" && (
         <motion.div
           initial={{ opacity: 0, y: 18 }}
