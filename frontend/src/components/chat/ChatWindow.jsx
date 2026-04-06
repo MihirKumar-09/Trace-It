@@ -1,4 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  SendHorizontal,
+  MessageSquareText,
+  Clock3,
+  CheckCircle2,
+  XCircle,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import { useAuth } from "../../Context/AuthContext";
 import {
   acceptConversationRequest,
@@ -11,6 +21,45 @@ import {
 } from "../../services/messageService";
 import { useSocket } from "../../Context/SocketContext";
 
+const containerVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const bubbleVariants = {
+  hidden: { opacity: 0, y: 18, scale: 0.96 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.25,
+      ease: "easeOut",
+    },
+  },
+};
+
+const floatingIcon = {
+  animate: {
+    y: [0, -4, 0],
+    rotate: [0, 2, 0, -2, 0],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
 export default function ChatWindow({ conversation }) {
   const { user } = useAuth();
   const { socket } = useSocket();
@@ -19,9 +68,17 @@ export default function ChatWindow({ conversation }) {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const messagesEndRef = useRef(null);
+
   const isOwner =
     String(conversation?.reportOwnerId?._id || conversation?.reportOwnerId) ===
     String(user?._id);
+
+  const otherUser =
+    String(conversation?.claimantId?._id || conversation?.claimantId) ===
+    String(user?._id)
+      ? conversation?.reportOwnerId
+      : conversation?.claimantId;
 
   useEffect(() => {
     if (!conversation?._id) return;
@@ -43,9 +100,25 @@ export default function ChatWindow({ conversation }) {
     if (!socket || !conversation?._id) return;
 
     const handleNewMessage = (incomingMessage) => {
-      if (incomingMessage.conversationId === conversation._id) {
-        setMessages((prev) => [...prev, incomingMessage]);
-      }
+      console.log("incoming socket message:", incomingMessage);
+
+      const incomingConversationId = String(
+        incomingMessage?.conversationId?._id || incomingMessage?.conversationId,
+      );
+
+      const currentConversationId = String(conversation?._id);
+
+      if (incomingConversationId !== currentConversationId) return;
+
+      setMessages((prev) => {
+        const alreadyExists = prev.some(
+          (msg) => String(msg._id) === String(incomingMessage._id),
+        );
+
+        if (alreadyExists) return prev;
+
+        return [...prev, incomingMessage];
+      });
     };
 
     socket.on("new_message", handleNewMessage);
@@ -53,15 +126,11 @@ export default function ChatWindow({ conversation }) {
     return () => {
       socket.off("new_message", handleNewMessage);
     };
-  }, [socket, conversation]);
+  }, [socket, conversation?._id]);
 
-  if (!conversation) {
-    return (
-      <div className="flex h-full items-center justify-center text-slate-500">
-        Select a conversation
-      </div>
-    );
-  }
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleAccept = async () => {
     try {
@@ -91,119 +160,357 @@ export default function ChatWindow({ conversation }) {
     if (!text.trim()) return;
 
     try {
-      const data = await sendMessage(conversation._id, text);
-      setMessages((prev) => [...prev, data.newMessage]);
+      const data = await sendMessage(conversation._id, text.trim());
+
+      if (data?.newMessage) {
+        setMessages((prev) => {
+          const alreadyExists = prev.some(
+            (msg) => String(msg._id) === String(data.newMessage._id),
+          );
+
+          if (alreadyExists) return prev;
+          return [...prev, data.newMessage];
+        });
+      }
+
       setText("");
     } catch (error) {
       console.log("Send message error:", error);
     }
   };
 
-  return (
-    <div className="flex h-full flex-col">
-      <div className="border-b border-slate-200 bg-white px-6 py-4">
-        <h2 className="text-xl font-bold text-slate-900">
-          {conversation.reportId?.name || "Chat"}
-        </h2>
-        <p className="text-sm text-slate-500">Status: {conversation.status}</p>
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const getInitials = (name) => {
+    if (!name) return "U";
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
+  const getStatusStyles = (status) => {
+    switch (status) {
+      case "accepted":
+        return "border-emerald-200/80 bg-emerald-50/90 text-emerald-700";
+      case "pending":
+        return "border-amber-200/80 bg-amber-50/90 text-amber-700";
+      case "rejected":
+        return "border-rose-200/80 bg-rose-50/90 text-rose-700";
+      default:
+        return "border-slate-200 bg-slate-50 text-slate-600";
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "accepted":
+        return <CheckCircle2 className="h-3.5 w-3.5" />;
+      case "pending":
+        return <Clock3 className="h-3.5 w-3.5" />;
+      case "rejected":
+        return <XCircle className="h-3.5 w-3.5" />;
+      default:
+        return <ShieldCheck className="h-3.5 w-3.5" />;
+    }
+  };
+
+  if (!conversation) {
+    return (
+      <div className="flex h-full items-center justify-center rounded-[28px] border border-white/20 bg-[linear-gradient(135deg,rgba(255,255,255,0.75),rgba(241,245,249,0.7))] p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <motion.div
+            variants={floatingIcon}
+            animate="animate"
+            className="mx-auto mb-4 flex h-18 w-18 items-center justify-center rounded-full bg-[linear-gradient(135deg,#2563EB,#1D4ED8)] text-white shadow-[0_16px_40px_rgba(37,99,235,0.28)]"
+          >
+            <MessageSquareText className="h-8 w-8" />
+          </motion.div>
+          <h3 className="text-xl font-bold text-slate-900">
+            Select a conversation
+          </h3>
+          <p className="mt-2 text-sm text-slate-500">
+            Pick any conversation from the left panel.
+          </p>
+        </motion.div>
       </div>
+    );
+  }
 
-      <div className="flex-1 space-y-3 overflow-y-auto p-6">
-        {messages.length === 0 ? (
-          <p className="text-sm text-slate-500">No messages yet</p>
-        ) : (
-          messages.map((message) => {
-            const isOwn =
-              String(message.senderId?._id || message.senderId) ===
-              String(user?._id);
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
+      className="relative flex h-full flex-col overflow-hidden rounded-[30px] border border-white/20 bg-[linear-gradient(135deg,rgba(255,255,255,0.78),rgba(241,245,249,0.72))] shadow-[0_24px_60px_rgba(15,23,42,0.10)] backdrop-blur-2xl"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.12),transparent_28%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.10),transparent_25%)]" />
 
-            return (
-              <div
-                key={message._id}
-                className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`max-w-[70%] rounded-2xl px-4 py-3 text-sm shadow-sm ${
-                    isOwn
-                      ? "bg-blue-600 text-white"
-                      : "border border-slate-200 bg-white text-slate-800"
-                  }`}
-                >
-                  <p>{message.text}</p>
-                  <p
-                    className={`mt-1 text-[11px] ${
-                      isOwn ? "text-blue-100" : "text-slate-400"
-                    }`}
-                  >
-                    {message.messageType === "initial_proof"
-                      ? "Proof Message"
-                      : "Message"}
-                  </p>
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative z-10 border-b border-white/50 bg-white/45 px-5 py-4 backdrop-blur-xl md:px-6"
+      >
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <motion.div
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              className="relative shrink-0"
+            >
+              <div className="absolute inset-0 rounded-full bg-blue-400/25 blur-md" />
+              {otherUser?.avatar ? (
+                <img
+                  src={otherUser.avatar}
+                  alt={otherUser?.name || "User"}
+                  className="relative h-12 w-12 rounded-full border-2 border-white object-cover shadow-[0_14px_30px_rgba(15,23,42,0.18)]"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0F172A,#1E3A8A)] text-sm font-bold text-white shadow-[0_14px_30px_rgba(15,23,42,0.18)]">
+                  {getInitials(otherUser?.name)}
                 </div>
+              )}
+            </motion.div>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <h2 className="truncate text-[18px] font-bold text-slate-900">
+                  {otherUser?.name || conversation?.reportId?.name || "Chat"}
+                </h2>
+                <motion.div
+                  variants={floatingIcon}
+                  animate="animate"
+                  className="hidden sm:block text-blue-500"
+                >
+                  <Sparkles className="h-4 w-4" />
+                </motion.div>
               </div>
-            );
-          })
-        )}
 
-        {conversation.status === "pending" && isOwner && (
-          <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4">
-            <h4 className="font-bold text-slate-900">Pending Request</h4>
-            <p className="mt-1 text-sm text-slate-600">
-              Accept to unlock full conversation or reject to close it.
-            </p>
-
-            <div className="mt-4 flex gap-3">
-              <button
-                onClick={handleAccept}
-                disabled={loading}
-                className="rounded-xl bg-green-600 px-4 py-2 font-semibold text-white"
-              >
-                Accept
-              </button>
-
-              <button
-                onClick={handleReject}
-                disabled={loading}
-                className="rounded-xl bg-red-600 px-4 py-2 font-semibold text-white"
-              >
-                Reject
-              </button>
+              <p className="truncate text-[13px] text-slate-500">
+                {conversation?.reportId?.name || "Lost & Found conversation"}
+              </p>
             </div>
           </div>
+
+          <motion.div
+            whileHover={{ scale: 1.04 }}
+            className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide ${getStatusStyles(
+              conversation.status,
+            )}`}
+          >
+            {getStatusIcon(conversation.status)}
+            <span>{conversation.status}</span>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Messages */}
+      <div className="relative z-10 flex-1 overflow-y-auto no-scrollbar px-4 py-5 md:px-5">
+        {messages.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex h-full min-h-80 items-center justify-center"
+          >
+            <div className="rounded-[28px] border border-white/60 bg-white/65 px-7 py-10 text-center shadow-[0_16px_40px_rgba(15,23,42,0.07)] backdrop-blur-xl">
+              <motion.div
+                variants={floatingIcon}
+                animate="animate"
+                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[linear-gradient(135deg,#E0EAFF,#DBEAFE)] text-blue-600 shadow-inner"
+              >
+                <MessageSquareText className="h-7 w-7" />
+              </motion.div>
+
+              <h3 className="text-lg font-bold text-slate-800">
+                No messages yet
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                Start the conversation once the request is accepted.
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="space-y-3"
+          >
+            {messages.map((message) => {
+              const isOwn =
+                String(message.senderId?._id || message.senderId) ===
+                String(user?._id);
+
+              return (
+                <motion.div
+                  key={message._id}
+                  variants={bubbleVariants}
+                  className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
+                >
+                  <motion.div
+                    whileHover={{ y: -2, scale: 1.01 }}
+                    className={`relative max-w-[84%] overflow-hidden rounded-3xl px-4 py-3.5 text-sm shadow-[0_14px_34px_rgba(15,23,42,0.08)] md:max-w-[70%] ${
+                      isOwn
+                        ? "bg-[linear-gradient(135deg,#2563EB,#1D4ED8)] text-white"
+                        : "border border-white/70 bg-white/90 text-slate-800 backdrop-blur-xl"
+                    }`}
+                  >
+                    {!isOwn && (
+                      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.06),transparent_38%)]" />
+                    )}
+
+                    <div className="relative z-10">
+                      <p className="wrap-break-word whitespace-pre-wrap text-[14px] leading-6">
+                        {message.text}
+                      </p>
+
+                      <div className="mt-2.5 flex items-center gap-2">
+                        <span
+                          className={`text-[11px] font-medium ${
+                            isOwn ? "text-blue-100" : "text-slate-400"
+                          }`}
+                        >
+                          {message.messageType === "initial_proof"
+                            ? "Proof Message"
+                            : "Message"}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              );
+            })}
+            <div ref={messagesEndRef} />
+          </motion.div>
         )}
 
-        {conversation.status === "pending" && !isOwner && (
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-700">
-            Waiting for report owner response
-          </div>
-        )}
+        <AnimatePresence>
+          {conversation.status === "pending" && isOwner && (
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 18 }}
+              className="mt-4 overflow-hidden rounded-[28px] border border-amber-200/80 bg-[linear-gradient(135deg,#FFF7ED,#FEF3C7)] p-5 shadow-[0_16px_38px_rgba(245,158,11,0.12)]"
+            >
+              <div className="mb-3 flex items-center gap-2 text-amber-700">
+                <motion.div variants={floatingIcon} animate="animate">
+                  <Clock3 className="h-5 w-5" />
+                </motion.div>
+                <h4 className="text-base font-bold text-slate-900">
+                  Pending Request
+                </h4>
+              </div>
 
-        {conversation.status === "rejected" && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-            This request was rejected. You cannot send more messages here.
-          </div>
-        )}
+              <p className="text-sm leading-6 text-slate-600">
+                Accept to unlock full conversation or reject to close it.
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-3">
+                <motion.button
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleAccept}
+                  disabled={loading}
+                  className="flex items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#16A34A,#15803D)] px-5 py-2.5 font-semibold text-white shadow-[0_10px_24px_rgba(22,163,74,0.25)]"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  {loading ? "Processing..." : "Accept"}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleReject}
+                  disabled={loading}
+                  className="flex items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#EF4444,#DC2626)] px-5 py-2.5 font-semibold text-white shadow-[0_10px_24px_rgba(239,68,68,0.22)]"
+                >
+                  <XCircle className="h-4 w-4" />
+                  {loading ? "Processing..." : "Reject"}
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {conversation.status === "pending" && !isOwner && (
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 18 }}
+              className="mt-4 flex items-center gap-2 rounded-[22px] border border-blue-200 bg-blue-50/90 p-4 text-sm text-blue-700 shadow-[0_10px_26px_rgba(37,99,235,0.08)]"
+            >
+              <Clock3 className="h-4 w-4" />
+              Waiting for report owner response
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {conversation.status === "rejected" && (
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 18 }}
+              className="mt-4 flex items-center gap-2 rounded-[22px] border border-rose-200 bg-rose-50/95 p-4 text-sm text-rose-700 shadow-[0_10px_26px_rgba(244,63,94,0.08)]"
+            >
+              <XCircle className="h-4 w-4" />
+              This request was rejected. You cannot send more messages here.
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
+      {/* Input */}
       {conversation.status === "accepted" && (
-        <div className="border-t border-slate-200 bg-white p-4">
-          <div className="flex gap-3">
-            <input
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-            />
-
-            <button
-              onClick={handleSendMessage}
-              className="rounded-2xl bg-blue-600 px-5 py-3 font-semibold text-white"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative z-10 px-4 pb-4"
+        >
+          <div className="flex items-end gap-3">
+            {/* Input Field */}
+            <motion.div
+              whileFocus={{ scale: 1.01 }}
+              className="flex flex-1 items-end gap-3 rounded-2xl bg-white/70 backdrop-blur-md px-4 py-3 shadow-[0_8px_30px_rgba(15,23,42,0.08)] border border-white/40 focus-within:border-blue-400 transition-all duration-300"
             >
-              Send
-            </button>
+              <MessageSquareText className="mb-1 h-5 w-5 text-blue-500" />
+
+              <textarea
+                rows={1}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Type your message..."
+                className="flex-1 resize-none bg-transparent text-[14px] leading-6 text-slate-800 outline-none placeholder:text-slate-400"
+              />
+            </motion.div>
+
+            {/* Send Button */}
+            <motion.button
+              whileHover={{ scale: 1.08, rotate: 2 }}
+              whileTap={{ scale: 0.92 }}
+              onClick={handleSendMessage}
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#2563EB,#1D4ED8)] text-white shadow-[0_10px_25px_rgba(37,99,235,0.35)]"
+            >
+              <SendHorizontal className="h-5 w-5" />
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }
