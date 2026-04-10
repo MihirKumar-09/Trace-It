@@ -15,7 +15,10 @@ export default function ProtectedRoute() {
 
   // If not logged in , redirect to login page;
   if (!user) {
-    return <Navigate to="/signIn" replace state={{ from: location }} />;
+    const fullPath = location.pathname + location.search + location.hash;
+
+    localStorage.setItem("redirectAfterLogin", fullPath);
+    return <Navigate to="/signIn" replace />;
   }
 
   // If logged in , allow access;

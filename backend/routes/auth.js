@@ -17,7 +17,7 @@ router.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173"); // Frontend redirect
+    res.redirect("http://localhost:5173/auth-success"); // Frontend redirect(Store the path in local storage and redirect to that page)
   },
 );
 

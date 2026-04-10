@@ -15,6 +15,8 @@ import MessagePage from "../pages/MessagesPage";
 
 // Protected Route;
 import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
+// Redirect Route;
+import RedirectBack from "../components/ProtectedRoute/RedirectBack";
 export default function AppRoute() {
   return (
     <Routes>
@@ -26,6 +28,9 @@ export default function AppRoute() {
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/reports/:type" element={<AllReportPage />} />
       <Route path="*" element={<NoFound />} />
+
+      {/* Auth success redirect back */}
+      <Route path="/auth-success" element={<RedirectBack />} />
 
       {/* Protected Route */}
       <Route element={<ProtectedRoute />}>
