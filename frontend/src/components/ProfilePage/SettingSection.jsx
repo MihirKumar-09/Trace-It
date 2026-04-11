@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useTheme } from "../../Context/ThemeContext";
 import {
   Bell,
   Shield,
@@ -283,6 +284,14 @@ export default function SettingSection() {
       setSaving(false);
     }
   };
+
+  const { preference, setPreference } = useTheme();
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      appearance: preference,
+    }));
+  }, [preference]);
 
   if (loading) {
     return (
@@ -676,7 +685,12 @@ export default function SettingSection() {
                   icon={form.appearance === "dark" ? MoonStar : Monitor}
                   label="Appearance"
                   value={form.appearance}
-                  onChange={(e) => handleChange("appearance", e.target.value)}
+                  onChange={(e) => {
+                    const selectedTheme = e.target.value;
+                    handleChange("appearance", selectedTheme);
+                    setPreference(selectedTheme);
+                    toast.success(`Theme changed to ${selectedTheme}`);
+                  }}
                   options={[
                     { label: "Dark", value: "dark" },
                     { label: "Light", value: "light" },

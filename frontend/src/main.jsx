@@ -6,10 +6,13 @@ import App from "./App.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { ReportProvider } from "./Context/ReportContext.jsx";
 import { SocketProvider } from "./Context/SocketContext.jsx";
+import { ThemeProvider, useTheme } from "./Context/ThemeContext.jsx";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Theme className="h-full w-full">
+function AppProviders() {
+  const { theme } = useTheme();
+
+  return (
+    <Theme appearance={theme} className="h-full w-full">
       <AuthProvider>
         <SocketProvider>
           <ReportProvider>
@@ -18,5 +21,13 @@ createRoot(document.getElementById("root")).render(
         </SocketProvider>
       </AuthProvider>
     </Theme>
+  );
+}
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <ThemeProvider>
+      <AppProviders />
+    </ThemeProvider>
   </StrictMode>,
 );
