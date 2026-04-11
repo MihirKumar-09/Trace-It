@@ -758,15 +758,16 @@ export default function SettingSection() {
               <h3 className="text-lg font-bold text-white">Quick Notes</h3>
               <div className="mt-4 space-y-3 text-sm text-slate-200">
                 <div className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
-                  Public email aur phone default me off rakhna better hai.
+                  It's better to keep your email and phone number private by
+                  default.
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
-                  Claim alerts on rehna chahiye, warna user important request
-                  miss karega.
+                  Claim alerts should be turned on, otherwise the user might
+                  miss important requests.
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/4 px-4 py-3">
-                  Two-factor auth optional mat samajh. Real product me ye useful
-                  hai.
+                  Don’t treat two-factor authentication as optional — it’s
+                  essential in real-world applications.
                 </div>
               </div>
             </motion.section>
