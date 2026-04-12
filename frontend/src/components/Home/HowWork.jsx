@@ -50,15 +50,25 @@ export default function HowWork() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative overflow-hidden px-3 py-16 text-center sm:px-5 md:px-12"
-      style={{
-        background:
-          "linear-gradient(180deg, #F8FAFC 0%, #EEF4FF 50%, #F8FAFC 100%)",
-      }}
+      className="relative overflow-hidden px-3 py-16 text-center sm:px-5 md:px-12 bg-[linear-gradient(180deg,#F8FAFC_0%,#EEF4FF_50%,#F8FAFC_100%)] dark:bg-[linear-gradient(180deg,#020617_0%,#0B1220_50%,#020617_100%)]"
     >
-      {/* Background blur effects */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-200/30 rounded-full blur-3xl" />
+      {/* Background glow */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-blue-200/30 blur-3xl dark:bg-blue-500/15" />
+        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-indigo-200/30 blur-3xl dark:bg-purple-500/15" />
+
+        <motion.div
+          animate={{ x: [0, 35, 0], y: [0, -20, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -left-10 top-10 h-52 w-52 rounded-full bg-sky-300/20 blur-3xl dark:bg-sky-500/10"
+        />
+
+        <motion.div
+          animate={{ x: [0, -30, 0], y: [0, 25, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-10 right-0 h-60 w-60 rounded-full bg-violet-300/20 blur-3xl dark:bg-violet-500/10"
+        />
+      </div>
 
       <div className="relative z-10">
         <motion.h1
@@ -66,7 +76,7 @@ export default function HowWork() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mb-4 text-3xl font-bold text-slate-900 sm:text-4xl md:text-5xl"
+          className="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl md:text-5xl"
         >
           How Lost Link Works
         </motion.h1>
@@ -76,7 +86,7 @@ export default function HowWork() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.15, duration: 0.7 }}
-          className="mx-auto max-w-2xl text-sm leading-relaxed text-slate-500 md:text-base"
+          className="mx-auto max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 md:text-base"
         >
           Reuniting with your belongings is as simple as these three steps.
         </motion.p>
@@ -94,9 +104,16 @@ export default function HowWork() {
               variants={cardVariants}
               whileHover={{ y: -10, scale: 1.03 }}
               transition={{ type: "spring", stiffness: 180, damping: 14 }}
-              className="group relative rounded-3xl border border-blue-100 bg-white/80 p-8 shadow-[0_10px_30px_rgba(37,99,235,0.08)] backdrop-blur-md"
+              className="group relative overflow-hidden rounded-3xl border border-blue-100/80 bg-white/80 p-8 shadow-[0_10px_30px_rgba(37,99,235,0.08)] backdrop-blur-md dark:border-white/10 dark:bg-white/6 dark:shadow-[0_14px_35px_rgba(0,0,0,0.35)]"
             >
-              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-blue-50 via-white to-indigo-50 opacity-0 transition duration-500 group-hover:opacity-100" />
+              {/* Hover overlay */}
+              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-blue-50 via-white to-indigo-50 opacity-0 transition duration-500 group-hover:opacity-100 dark:from-blue-500/10 dark:via-transparent dark:to-purple-500/10" />
+
+              {/* Hover ring */}
+              <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-transparent transition duration-300 group-hover:ring-blue-300/40 dark:group-hover:ring-blue-400/20" />
+
+              {/* Top glow */}
+              <div className="absolute -top-10 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full bg-blue-200/20 blur-3xl dark:bg-blue-500/10" />
 
               <div className="relative z-10 flex flex-col items-center">
                 <motion.span
@@ -106,16 +123,16 @@ export default function HowWork() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-blue-100 to-indigo-100 shadow-[0_10px_25px_rgba(59,130,246,0.18)]"
+                  className="flex h-20 w-20 items-center justify-center rounded-2xl border border-white/50 bg-linear-to-br from-blue-100 to-indigo-100 shadow-[0_10px_25px_rgba(59,130,246,0.18)] dark:border-white/10 dark:bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] dark:shadow-[0_10px_25px_rgba(0,0,0,0.35)]"
                 >
                   {step.icon}
                 </motion.span>
 
-                <h4 className="mt-5 mb-3 text-lg font-semibold text-slate-800 md:text-2xl">
+                <h4 className="mb-3 mt-5 text-lg font-semibold text-slate-800 dark:text-white md:text-2xl">
                   {step.title}
                 </h4>
 
-                <p className="text-sm leading-7 text-slate-500 md:text-base">
+                <p className="text-sm leading-7 text-slate-600 dark:text-slate-400 md:text-base">
                   {step.description}
                 </p>
               </div>
