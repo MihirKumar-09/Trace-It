@@ -51,19 +51,20 @@ export default function SuccessStories() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] px-3 py-14 text-center sm:px-5 md:px-12">
+    <section className="relative overflow-hidden bg-[linear-gradient(180deg,#F8FAFC_0%,#FFF7ED_45%,#F8FAFC_100%)] px-3 py-14 text-center transition-colors duration-500 dark:bg-[linear-gradient(180deg,#020617_0%,#0B1120_38%,#111827_70%,#030712_100%)] sm:px-5 md:px-12">
       {/* Background glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-10 top-10 h-44 w-44 rounded-full bg-orange-200/30 blur-3xl"
+          className="absolute left-10 top-10 h-44 w-44 rounded-full bg-orange-200/35 blur-3xl dark:bg-orange-500/10"
         />
         <motion.div
           animate={{ x: [0, -20, 0], y: [0, 20, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-10 right-10 h-56 w-56 rounded-full bg-blue-200/30 blur-3xl"
+          className="absolute bottom-10 right-10 h-56 w-56 rounded-full bg-blue-200/35 blur-3xl dark:bg-blue-500/10"
         />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.10),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.10),transparent_30%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(251,146,60,0.08),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.10),transparent_30%)]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -73,16 +74,16 @@ export default function SuccessStories() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.45 }}
-          className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-2 shadow-sm backdrop-blur-md"
+          className="inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-white/80 px-4 py-2 shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/6 dark:shadow-[0_8px_24px_rgba(0,0,0,0.25)]"
         >
           <motion.span
             animate={{ rotate: [0, 12, -12, 0], scale: [1, 1.08, 1] }}
             transition={{ duration: 2.5, repeat: Infinity }}
-            className="text-orange-500"
+            className="text-orange-500 dark:text-orange-400"
           >
             <Sparkles size={15} />
           </motion.span>
-          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
+          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-slate-300">
             Real Community Impact
           </span>
         </motion.div>
@@ -93,7 +94,7 @@ export default function SuccessStories() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl"
+          className="mt-5 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
         >
           Success Stories
         </motion.h3>
@@ -103,7 +104,7 @@ export default function SuccessStories() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base"
+          className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base dark:text-slate-400"
         >
           Real people, real recoveries, and proof that Lost Link is more than
           just a platform.
@@ -124,21 +125,22 @@ export default function SuccessStories() {
               whileHover={{
                 y: -8,
                 scale: 1.015,
-                boxShadow: "0px 24px 60px rgba(15,23,42,0.12)",
+                boxShadow: "0px 24px 60px rgba(15,23,42,0.16)",
               }}
               transition={{ duration: 0.25 }}
-              className="group relative overflow-hidden rounded-[28px] border border-white/60 bg-white/75 p-6 text-left shadow-[0_12px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+              className="group relative overflow-hidden rounded-[28px] border border-white/60 bg-white/75 p-6 text-left shadow-[0_12px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-white/10 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.72),rgba(17,24,39,0.58))] dark:shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
             >
               {/* Card glow */}
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),rgba(255,255,255,0.08))]" />
-              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-orange-100/50 blur-2xl transition duration-500 group-hover:scale-125" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.55),rgba(255,255,255,0.08))] dark:bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))]" />
+              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-orange-100/50 blur-2xl transition duration-500 group-hover:scale-125 dark:bg-orange-500/10" />
+              <div className="pointer-events-none absolute -bottom-12 -left-10 h-28 w-28 rounded-full bg-blue-100/50 blur-2xl dark:bg-blue-500/10" />
 
               {/* Top row */}
               <div className="relative z-10 flex items-start justify-between gap-4">
                 <div className="flex items-center gap-4">
                   <motion.div
                     whileHover={{ scale: 1.06 }}
-                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-md"
+                    className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-md dark:ring-white/10"
                   >
                     <img
                       src={story.image}
@@ -148,12 +150,12 @@ export default function SuccessStories() {
                   </motion.div>
 
                   <div>
-                    <h4 className="text-base font-semibold text-slate-900">
+                    <h4 className="text-base font-semibold text-slate-900 dark:text-white">
                       {story.name}
                     </h4>
 
-                    <p className="mt-1 text-sm text-slate-500">
-                      <span className="font-medium text-emerald-600">
+                    <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                      <span className="font-medium text-emerald-600 dark:text-emerald-400">
                         {story.helpType}
                       </span>{" "}
                       • {story.item}
@@ -164,30 +166,32 @@ export default function SuccessStories() {
                 <motion.div
                   animate={{ y: [0, -3, 0] }}
                   transition={{ duration: 2.5, repeat: Infinity }}
-                  className="rounded-full border border-slate-200 bg-white/80 p-2 text-slate-500 shadow-sm"
+                  className="rounded-full border border-slate-200 bg-white/80 p-2 text-slate-500 shadow-sm dark:border-white/10 dark:bg-white/8 dark:text-slate-300"
                 >
                   <Quote size={16} />
                 </motion.div>
               </div>
 
               {/* Story */}
-              <p className="relative z-10 mt-5 text-sm leading-7 text-slate-600">
+              <p className="relative z-10 mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
                 “{story.description}”
               </p>
 
               {/* Bottom tag */}
               <div className="relative z-10 mt-6 flex items-center justify-between">
-                <span className="inline-flex items-center rounded-full border border-orange-100 bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600">
+                <span className="inline-flex items-center rounded-full border border-orange-100 bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600 dark:border-orange-400/20 dark:bg-orange-500/10 dark:text-orange-300">
                   Verified Story
                 </span>
 
                 <motion.span
                   whileHover={{ x: 3, y: -3 }}
-                  className="text-slate-400"
+                  className="text-slate-400 dark:text-slate-500"
                 >
                   <ArrowUpRight size={18} />
                 </motion.span>
               </div>
+
+              <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-transparent transition duration-300 group-hover:ring-orange-300/40 dark:group-hover:ring-white/10" />
             </motion.div>
           ))}
         </motion.div>
