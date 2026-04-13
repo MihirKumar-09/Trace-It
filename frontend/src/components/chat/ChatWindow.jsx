@@ -63,178 +63,485 @@ const floatSoft = {
 };
 
 function AnimatedRightPanelBackground() {
-  const dots = useMemo(
+  const lightParticles = useMemo(
     () =>
-      Array.from({ length: 14 }, (_, i) => ({
+      Array.from({ length: 24 }, (_, i) => ({
         id: i,
-        size: i % 3 === 0 ? 3.2 : 2,
-        left: `${7 + ((i * 19) % 86)}%`,
-        top: `${8 + ((i * 11) % 82)}%`,
-        duration: 7 + (i % 4),
-        delay: (i % 5) * 0.5,
+        size: i % 5 === 0 ? 14 : i % 3 === 0 ? 9 : 5,
+        left: `${4 + ((i * 13) % 92)}%`,
+        top: `${5 + ((i * 9) % 88)}%`,
+        duration: 8 + (i % 5) * 1.8,
+        delay: (i % 7) * 0.3,
+      })),
+    [],
+  );
+
+  const darkParticles = useMemo(
+    () =>
+      Array.from({ length: 34 }, (_, i) => ({
+        id: i,
+        size: i % 6 === 0 ? 4 : i % 3 === 0 ? 2.8 : 2,
+        left: `${3 + ((i * 17) % 94)}%`,
+        top: `${4 + ((i * 11) % 90)}%`,
+        duration: 4 + (i % 6),
+        delay: (i % 8) * 0.25,
       })),
     [],
   );
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#170329_0%,#110220_26%,#0a0117_60%,#06010f_100%)]" />
+      {/* LIGHT THEME */}
+      <div className="absolute inset-0 dark:hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#ffffff_0%,#fff7e8_18%,#eef8ff_42%,#f5f9ff_70%,#edf4ff_100%)]" />
 
-      <motion.div
-        animate={{
-          x: [0, 34, -18, 0],
-          y: [0, -20, 18, 0],
-          scale: [1, 1.07, 0.96, 1],
-        }}
-        transition={{
-          duration: 13,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -left-20 top-0 h-80 w-80 rounded-full bg-pink-500/10 blur-3xl"
-      />
-
-      <motion.div
-        animate={{
-          x: [0, -24, 18, 0],
-          y: [0, 18, -14, 0],
-          scale: [1, 0.96, 1.06, 1],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -right-15 top-16 h-96 w-96 rounded-full bg-fuchsia-500/8 blur-3xl"
-      />
-
-      <motion.div
-        animate={{
-          x: [0, 18, -20, 0],
-          y: [0, -16, 24, 0],
-          scale: [1, 1.05, 0.95, 1],
-        }}
-        transition={{
-          duration: 17,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -bottom-30 left-[26%] h-112 w-md rounded-full bg-violet-500/10 blur-3xl"
-      />
-
-      <motion.svg
-        viewBox="0 0 400 800"
-        className="absolute inset-0 h-full w-full opacity-32"
-        animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <defs>
-          <linearGradient
-            id="rightMeshStroke"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#ff6aad" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#9f67ff" stopOpacity="0.18" />
-          </linearGradient>
-
-          <radialGradient id="rightMeshGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#ffd0ea" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#ffd0ea" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        <g stroke="url(#rightMeshStroke)" strokeWidth="1" fill="none">
-          <path d="M18 88 L96 54 L164 106 L118 186 L42 156 Z" />
-          <path d="M164 106 L236 82 L284 144 L206 202 L118 186 Z" />
-          <path d="M236 82 L334 44 L390 104 L284 144 Z" />
-          <path d="M48 250 L134 224 L188 284 L96 338 L28 300 Z" />
-          <path d="M188 284 L270 244 L328 316 L246 384 L96 338 Z" />
-          <path d="M246 384 L344 348 L392 418 L286 494 L188 448 Z" />
-          <path d="M42 470 L118 430 L188 448 L144 550 L56 542 Z" />
-          <path d="M144 550 L232 522 L296 592 L220 660 L104 626 Z" />
-          <path d="M220 660 L316 632 L386 702 L292 774 L180 738 Z" />
-        </g>
-
-        <g stroke="#ff7ab6" strokeOpacity="0.1" strokeWidth="0.8">
-          <line x1="96" y1="54" x2="134" y2="224" />
-          <line x1="164" y1="106" x2="188" y2="284" />
-          <line x1="284" y1="144" x2="270" y2="244" />
-          <line x1="118" y1="186" x2="96" y2="338" />
-          <line x1="328" y1="316" x2="344" y2="348" />
-          <line x1="188" y1="448" x2="232" y2="522" />
-          <line x1="296" y1="592" x2="316" y2="632" />
-        </g>
-
-        {[
-          [18, 88],
-          [96, 54],
-          [164, 106],
-          [118, 186],
-          [42, 156],
-          [236, 82],
-          [284, 144],
-          [334, 44],
-          [390, 104],
-          [48, 250],
-          [134, 224],
-          [188, 284],
-          [96, 338],
-          [28, 300],
-          [270, 244],
-          [328, 316],
-          [246, 384],
-          [344, 348],
-          [392, 418],
-          [42, 470],
-          [118, 430],
-          [188, 448],
-          [144, 550],
-          [56, 542],
-          [232, 522],
-          [296, 592],
-          [220, 660],
-          [104, 626],
-          [316, 632],
-          [386, 702],
-          [292, 774],
-          [180, 738],
-        ].map(([cx, cy], index) => (
-          <g key={index}>
-            <circle cx={cx} cy={cy} r="5.5" fill="url(#rightMeshGlow)" />
-            <circle cx={cx} cy={cy} r="1.3" fill="#ffd3eb" opacity="0.55" />
-          </g>
-        ))}
-      </motion.svg>
-
-      {dots.map((dot) => (
-        <motion.span
-          key={dot.id}
-          className="absolute rounded-full bg-pink-200/40"
-          style={{
-            width: `${dot.size}px`,
-            height: `${dot.size}px`,
-            left: dot.left,
-            top: dot.top,
-            boxShadow: "0 0 10px rgba(255,122,182,0.12)",
-          }}
+        {/* main sunlight */}
+        <motion.div
           animate={{
-            y: [0, -10, 0, 6, 0],
-            opacity: [0.16, 0.4, 0.2, 0.35, 0.16],
-            scale: [1, 1.08, 0.94, 1.03, 1],
+            x: [0, -30, 24, 0],
+            y: [0, 18, -8, 0],
+            scale: [1, 1.08, 0.96, 1],
           }}
           transition={{
-            duration: dot.duration,
-            delay: dot.delay,
+            duration: 18,
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          className="absolute -right-28 -top-24 h-96 w-96 rounded-full bg-yellow-300/50 blur-3xl"
         />
-      ))}
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.03)_0%,rgba(255,255,255,0.015)_16%,rgba(8,2,22,0.14)_100%)]" />
+        {/* sun */}
+        <motion.div
+          animate={{
+            x: [0, -16, 10, 0],
+            y: [0, 10, -6, 0],
+            rotate: [0, 8, -4, 0],
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute right-[4%] top-[4%]"
+        >
+          <div className="relative h-24 w-24 rounded-full bg-[radial-gradient(circle_at_35%_35%,#fff9d9_0%,#ffe48a_38%,#ffcb57_68%,#ffb703_100%)] shadow-[0_0_70px_rgba(255,191,0,0.38)]">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-4.5 rounded-full border border-yellow-300/35"
+            />
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-8.5 rounded-full border border-amber-200/20"
+            />
+          </div>
+        </motion.div>
+
+        {/* rays */}
+        <motion.div
+          animate={{
+            rotate: [0, 10, -6, 0],
+            scale: [1, 1.04, 0.98, 1],
+          }}
+          transition={{
+            duration: 16,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute right-[-6%] top-[-8%] h-120 w-120 rounded-full bg-[conic-gradient(from_90deg_at_50%_50%,rgba(255,207,88,0.00)_0deg,rgba(255,207,88,0.18)_30deg,rgba(255,207,88,0.00)_68deg,rgba(255,207,88,0.13)_116deg,rgba(255,207,88,0.00)_180deg,rgba(255,207,88,0.11)_238deg,rgba(255,207,88,0.00)_304deg,rgba(255,207,88,0.17)_340deg,rgba(255,207,88,0.00)_360deg)] blur-2xl"
+        />
+
+        {/* floating bright chat cards */}
+        <motion.div
+          animate={{ y: [0, -14, 0], x: [0, 14, 0], rotate: [0, 3, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-[6%] top-[12%] rounded-[28px] border border-sky-200/60 bg-white/55 px-6 py-4 shadow-[0_20px_45px_rgba(59,130,246,0.08)] backdrop-blur-xl"
+        >
+          <div className="h-3 w-20 rounded-full bg-sky-200/80" />
+          <div className="mt-2 h-3 w-12 rounded-full bg-blue-100/90" />
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, 16, 0], x: [0, -14, 0], rotate: [0, -4, 0] }}
+          transition={{
+            duration: 11,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute right-[12%] top-[34%] rounded-3xl border border-pink-200/60 bg-white/45 px-5 py-3 shadow-[0_18px_40px_rgba(236,72,153,0.08)] backdrop-blur-xl"
+        >
+          <div className="h-2.5 w-16 rounded-full bg-pink-200/80" />
+          <div className="mt-2 h-2.5 w-10 rounded-full bg-rose-100/90" />
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, -14, 0], x: [0, 18, 0], rotate: [0, 4, 0] }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.6,
+          }}
+          className="absolute left-[14%] bottom-[16%] rounded-[26px] border border-violet-200/60 bg-white/40 px-6 py-4 shadow-[0_18px_45px_rgba(124,58,237,0.08)] backdrop-blur-xl"
+        >
+          <div className="h-3 w-24 rounded-full bg-violet-200/80" />
+          <div className="mt-2 h-3 w-14 rounded-full bg-fuchsia-100/90" />
+        </motion.div>
+
+        {/* flowing ribbons */}
+        <motion.svg
+          viewBox="0 0 420 820"
+          className="absolute inset-0 h-full w-full opacity-60"
+          animate={{ x: [0, 10, 0], y: [0, -10, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <defs>
+            <linearGradient
+              id="chatWindowLightWave1"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.06" />
+              <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.24" />
+              <stop offset="100%" stopColor="#f472b6" stopOpacity="0.08" />
+            </linearGradient>
+            <linearGradient
+              id="chatWindowLightWave2"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.05" />
+              <stop offset="50%" stopColor="#facc15" stopOpacity="0.18" />
+              <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.06" />
+            </linearGradient>
+          </defs>
+
+          <motion.path
+            d="M-40 160 C 40 110, 120 230, 220 180 S 360 100, 460 170"
+            stroke="url(#chatWindowLightWave1)"
+            strokeWidth="18"
+            fill="none"
+            strokeLinecap="round"
+            animate={{
+              d: [
+                "M-40 160 C 40 110, 120 230, 220 180 S 360 100, 460 170",
+                "M-40 175 C 50 130, 120 215, 220 165 S 360 120, 460 185",
+                "M-40 160 C 40 110, 120 230, 220 180 S 360 100, 460 170",
+              ],
+            }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <motion.path
+            d="M-60 540 C 50 490, 140 630, 250 580 S 360 490, 470 555"
+            stroke="url(#chatWindowLightWave2)"
+            strokeWidth="20"
+            fill="none"
+            strokeLinecap="round"
+            animate={{
+              d: [
+                "M-60 540 C 50 490, 140 630, 250 580 S 360 490, 470 555",
+                "M-60 565 C 60 510, 150 610, 255 565 S 355 520, 470 575",
+                "M-60 540 C 50 490, 140 630, 250 580 S 360 490, 470 555",
+              ],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.6,
+            }}
+          />
+        </motion.svg>
+
+        {lightParticles.map((particle) => (
+          <motion.span
+            key={particle.id}
+            className="absolute rounded-full"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              left: particle.left,
+              top: particle.top,
+              background:
+                particle.id % 2 === 0
+                  ? "rgba(251,191,36,0.45)"
+                  : "rgba(96,165,250,0.38)",
+              boxShadow:
+                particle.id % 2 === 0
+                  ? "0 0 16px rgba(251,191,36,0.38)"
+                  : "0 0 16px rgba(96,165,250,0.30)",
+            }}
+            animate={{
+              y: [0, -20, 0, 12, 0],
+              x: [0, 8, -6, 10, 0],
+              opacity: [0.25, 0.65, 0.32, 0.55, 0.25],
+              scale: [1, 1.2, 0.95, 1.08, 1],
+            }}
+            transition={{
+              duration: particle.duration,
+              delay: particle.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-[radial-gradient(circle_at_bottom,rgba(96,165,250,0.16),transparent_70%)]" />
+      </div>
+
+      {/* DARK THEME */}
+      <div className="absolute inset-0 hidden dark:block">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#101a39_0%,#070d1f_28%,#040917_56%,#02040c_100%)]" />
+
+        <motion.div
+          animate={{
+            x: [0, 40, -22, 0],
+            y: [0, -28, 16, 0],
+            scale: [1, 1.08, 0.95, 1],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute -left-16 top-0 h-64 w-64 rounded-full bg-cyan-400/15 blur-3xl"
+        />
+
+        <motion.div
+          animate={{
+            x: [0, -30, 20, 0],
+            y: [0, 24, -18, 0],
+            scale: [1, 0.94, 1.08, 1],
+          }}
+          transition={{
+            duration: 16,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute -right-20 top-24 h-80 w-80 rounded-full bg-fuchsia-500/12 blur-3xl"
+        />
+
+        <motion.div
+          animate={{
+            x: [0, 24, -28, 0],
+            y: [0, -18, 26, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute -bottom-30 left-1/3 h-80 w-80 rounded-full bg-violet-500/10 blur-3xl"
+        />
+
+        {/* pulse rings */}
+        <motion.div
+          animate={{
+            scale: [1, 1.18, 1],
+            opacity: [0.22, 0.08, 0.22],
+          }}
+          transition={{
+            duration: 4.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute left-[14%] top-[16%] h-44 w-44 rounded-full border border-cyan-300/20"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.22, 1],
+            opacity: [0.16, 0.05, 0.16],
+          }}
+          transition={{
+            duration: 5.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.6,
+          }}
+          className="absolute right-[10%] top-[42%] h-52 w-52 rounded-full border border-fuchsia-300/15"
+        />
+
+        {/* cyber mesh */}
+        <motion.svg
+          viewBox="0 0 400 820"
+          className="absolute inset-0 h-full w-full opacity-55"
+          animate={{ y: [0, -8, 0], x: [0, 5, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <defs>
+            <linearGradient
+              id="chatWindowDarkLine1"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.10" />
+              <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.12" />
+            </linearGradient>
+
+            <linearGradient
+              id="chatWindowDarkLine2"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
+              <stop offset="0%" stopColor="#ec4899" stopOpacity="0.08" />
+              <stop offset="50%" stopColor="#a855f7" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0.10" />
+            </linearGradient>
+
+            <radialGradient id="chatWindowNodeGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#67e8f9" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#67e8f9" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          <motion.path
+            d="M-40 120 C 40 80, 100 180, 170 150 S 280 70, 430 130"
+            stroke="url(#chatWindowDarkLine1)"
+            strokeWidth="2.5"
+            fill="none"
+            strokeLinecap="round"
+            animate={{
+              d: [
+                "M-40 120 C 40 80, 100 180, 170 150 S 280 70, 430 130",
+                "M-40 140 C 50 90, 110 165, 180 138 S 295 82, 430 145",
+                "M-40 120 C 40 80, 100 180, 170 150 S 280 70, 430 130",
+              ],
+            }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <motion.path
+            d="M-30 280 C 55 220, 120 335, 200 300 S 315 225, 430 285"
+            stroke="url(#chatWindowDarkLine2)"
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            animate={{
+              d: [
+                "M-30 280 C 55 220, 120 335, 200 300 S 315 225, 430 285",
+                "M-30 300 C 65 245, 125 320, 205 288 S 320 245, 430 300",
+                "M-30 280 C 55 220, 120 335, 200 300 S 315 225, 430 285",
+              ],
+            }}
+            transition={{
+              duration: 8.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.4,
+            }}
+          />
+
+          <motion.path
+            d="M-50 520 C 40 460, 135 600, 225 555 S 325 470, 450 535"
+            stroke="url(#chatWindowDarkLine1)"
+            strokeWidth="2.5"
+            fill="none"
+            strokeLinecap="round"
+            animate={{
+              d: [
+                "M-50 520 C 40 460, 135 600, 225 555 S 325 470, 450 535",
+                "M-50 545 C 58 490, 140 585, 228 542 S 330 495, 450 550",
+                "M-50 520 C 40 460, 135 600, 225 555 S 325 470, 450 535",
+              ],
+            }}
+            transition={{
+              duration: 9,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.8,
+            }}
+          />
+
+          {[
+            [56, 110],
+            [126, 160],
+            [218, 140],
+            [318, 100],
+            [74, 265],
+            [158, 318],
+            [244, 286],
+            [330, 248],
+            [84, 505],
+            [182, 566],
+            [270, 532],
+            [346, 492],
+          ].map(([cx, cy], index) => (
+            <g key={index}>
+              <circle cx={cx} cy={cy} r="8" fill="url(#chatWindowNodeGlow)" />
+              <circle cx={cx} cy={cy} r="1.8" fill="#67e8f9" opacity="0.95" />
+            </g>
+          ))}
+        </motion.svg>
+
+        {darkParticles.map((particle) => (
+          <motion.span
+            key={particle.id}
+            className="absolute rounded-full bg-cyan-200/80"
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              left: particle.left,
+              top: particle.top,
+              boxShadow:
+                particle.id % 2 === 0
+                  ? "0 0 12px rgba(103,232,249,0.65)"
+                  : "0 0 12px rgba(217,70,239,0.45)",
+            }}
+            animate={{
+              opacity: [0.2, 1, 0.3],
+              scale: [1, 1.8, 1],
+              y: [0, -10, 0],
+            }}
+            transition={{
+              duration: particle.duration,
+              delay: particle.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        <motion.div
+          animate={{ y: ["-10%", "110%"] }}
+          transition={{
+            duration: 5.8,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute inset-x-0 h-24 bg-[linear-gradient(180deg,rgba(34,211,238,0)_0%,rgba(34,211,238,0.08)_45%,rgba(34,211,238,0)_100%)] blur-xl"
+        />
+
+        <motion.div
+          animate={{ backgroundPosition: ["0% 0%", "100% 100%"] }}
+          transition={{
+            duration: 16,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="absolute inset-0 opacity-[0.10]"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(56,189,248,0.12) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(56,189,248,0.12) 1px, transparent 1px)
+            `,
+            backgroundSize: "36px 36px",
+          }}
+        />
+
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.01)_18%,rgba(2,6,23,0.12)_100%)]" />
+      </div>
     </div>
   );
 }
@@ -244,10 +551,10 @@ function StatusPill({ status }) {
 
   const styles =
     normalized === "accepted"
-      ? "border-emerald-300/25 bg-emerald-400/10 text-emerald-200"
+      ? "border-emerald-300/40 bg-emerald-400/12 text-emerald-700 dark:text-emerald-200"
       : normalized === "rejected"
-        ? "border-rose-300/25 bg-rose-400/10 text-rose-200"
-        : "border-amber-300/25 bg-amber-400/10 text-amber-200";
+        ? "border-rose-300/40 bg-rose-400/12 text-rose-700 dark:text-rose-200"
+        : "border-amber-300/40 bg-amber-400/12 text-amber-700 dark:text-amber-200";
 
   const icon =
     normalized === "accepted" ? (
@@ -273,9 +580,9 @@ function MessageTicks({ isOwn, isSeen }) {
   if (!isOwn) return null;
 
   return isSeen ? (
-    <CheckCheck className="h-4 w-4 text-cyan-200" />
+    <CheckCheck className="h-4 w-4 text-cyan-500 dark:text-cyan-200" />
   ) : (
-    <Check className="h-4 w-4 text-white/75" />
+    <Check className="h-4 w-4 text-slate-500 dark:text-white/75" />
   );
 }
 
@@ -470,7 +777,7 @@ export default function ChatWindow({
 
   if (!conversation) {
     return (
-      <div className="relative hidden h-full min-h-155 items-center justify-center overflow-hidden border border-white/10 md:flex">
+      <div className="relative hidden min-h-155 h-full items-center justify-center overflow-hidden border border-slate-200/70 bg-white/45 shadow-[0_24px_70px_rgba(148,163,184,0.18)] dark:border-white/10 dark:bg-[#020617] dark:shadow-[0_24px_80px_rgba(0,0,0,0.45)] md:flex">
         <AnimatedRightPanelBackground />
 
         <motion.div
@@ -481,13 +788,15 @@ export default function ChatWindow({
           <motion.div
             variants={floatSoft}
             animate="animate"
-            className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-white/12 bg-white/8 shadow-[0_18px_45px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+            className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl border border-slate-200/70 bg-white/55 shadow-[0_18px_45px_rgba(59,130,246,0.10)] backdrop-blur-xl dark:border-white/12 dark:bg-white/8 dark:shadow-[0_18px_45px_rgba(0,0,0,0.22)]"
           >
-            <MessageSquareText className="h-9 w-9 text-pink-200" />
+            <MessageSquareText className="h-9 w-9 text-sky-600 dark:text-pink-200" />
           </motion.div>
 
-          <h3 className="text-2xl font-bold text-white">Open a conversation</h3>
-          <p className="mt-3 text-sm leading-7 text-slate-300">
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+            Open a conversation
+          </h3>
+          <p className="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
             Pick any chat from the left panel to continue the conversation.
           </p>
         </motion.div>
@@ -500,21 +809,22 @@ export default function ChatWindow({
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      className="relative flex h-full min-h-155 flex-col overflow-hidden border border-white/10 shadow-[0_24px_60px_rgba(0,0,0,0.24)]"
+      className="relative flex min-h-155 h-full flex-col overflow-hidden border border-slate-200/70 bg-white/40 shadow-[0_24px_60px_rgba(148,163,184,0.18)] dark:border-white/10 dark:bg-[#020617] dark:shadow-[0_24px_60px_rgba(0,0,0,0.24)]"
     >
       <AnimatedRightPanelBackground />
 
+      {/* header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 border-b border-white/10 bg-white/6 px-4 py-4 backdrop-blur-xl md:px-6"
+        className="relative z-10 border-b border-slate-200/70 bg-white/45 px-4 py-4 backdrop-blur-xl dark:border-white/10 dark:bg-white/6 md:px-6"
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={onBack}
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/10 text-white shadow-sm md:hidden"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200/70 bg-white/70 text-slate-700 shadow-sm dark:border-white/12 dark:bg-white/10 dark:text-white md:hidden"
             >
               <ArrowLeft className="h-5 w-5" />
             </motion.button>
@@ -523,16 +833,16 @@ export default function ChatWindow({
               whileHover={{ scale: 1.04, rotate: 2 }}
               className="relative shrink-0"
             >
-              <div className="absolute inset-0 rounded-full bg-pink-500/15 blur-md" />
+              <div className="absolute inset-0 rounded-full bg-pink-500/10 blur-md dark:bg-pink-500/15" />
               {otherUser?.avatar ? (
                 <img
                   src={otherUser.avatar}
                   alt={otherUser?.name || "User"}
-                  className="relative h-12 w-12 rounded-full border-2 border-white/20 object-cover shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
+                  className="relative h-12 w-12 rounded-full border-2 border-white/70 object-cover shadow-[0_14px_30px_rgba(0,0,0,0.15)] dark:border-white/20 dark:shadow-[0_14px_30px_rgba(0,0,0,0.25)]"
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#2a0b45,#8b3dff)] text-sm font-bold text-white shadow-[0_14px_30px_rgba(0,0,0,0.22)]">
+                <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#60a5fa,#f472b6)] text-sm font-bold text-white shadow-[0_14px_30px_rgba(59,130,246,0.18)] dark:bg-[linear-gradient(135deg,#2a0b45,#8b3dff)] dark:shadow-[0_14px_30px_rgba(0,0,0,0.22)]">
                   {getInitials(otherUser?.name)}
                 </div>
               )}
@@ -540,20 +850,20 @@ export default function ChatWindow({
 
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h2 className="truncate text-[17px] font-bold text-white md:text-[18px]">
+                <h2 className="truncate text-[17px] font-bold text-slate-900 dark:text-white md:text-[18px]">
                   {otherUser?.name || "Chat"}
                 </h2>
 
                 <motion.div
                   variants={floatSoft}
                   animate="animate"
-                  className="hidden text-pink-300 sm:block"
+                  className="hidden text-pink-500 dark:text-pink-300 sm:block"
                 >
                   <Sparkles className="h-4 w-4" />
                 </motion.div>
               </div>
 
-              <p className="truncate text-[12px] text-slate-300 md:text-[13px]">
+              <p className="truncate text-[12px] text-slate-600 dark:text-slate-300 md:text-[13px]">
                 {conversation?.reportId?.name || "Lost & Found conversation"}
               </p>
             </div>
@@ -563,6 +873,7 @@ export default function ChatWindow({
         </div>
       </motion.div>
 
+      {/* messages */}
       <div className="relative z-10 flex-1 overflow-y-auto px-3 py-4 no-scrollbar md:px-5 md:py-5">
         {messages.length === 0 ? (
           <motion.div
@@ -570,17 +881,19 @@ export default function ChatWindow({
             animate={{ opacity: 1, y: 0 }}
             className="flex h-full min-h-80 items-center justify-center"
           >
-            <div className="max-w-sm rounded-[28px] border border-white/10 bg-white/8 px-7 py-10 text-center shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl">
+            <div className="max-w-sm rounded-[28px] border border-slate-200/70 bg-white/55 px-7 py-10 text-center shadow-[0_18px_45px_rgba(59,130,246,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/8 dark:shadow-[0_18px_45px_rgba(0,0,0,0.18)]">
               <motion.div
                 variants={floatSoft}
                 animate="animate"
-                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] border border-white/12 bg-white/10 text-pink-200"
+                className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-[20px] border border-slate-200/70 bg-white/70 text-sky-600 dark:border-white/12 dark:bg-white/10 dark:text-pink-200"
               >
                 <MessageSquareText className="h-7 w-7" />
               </motion.div>
 
-              <h3 className="text-lg font-bold text-white">No messages yet</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                No messages yet
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
                 Start chatting once the request is accepted.
               </p>
             </div>
@@ -607,13 +920,13 @@ export default function ChatWindow({
                 >
                   <motion.div
                     whileHover={{ y: -2, scale: 1.01 }}
-                    className={`relative max-w-[84%] overflow-hidden rounded-3xl px-4 py-3.5 text-sm shadow-[0_14px_34px_rgba(0,0,0,0.18)] md:max-w-[72%] ${
+                    className={`relative max-w-[84%] overflow-hidden rounded-3xl px-4 py-3.5 text-sm shadow-[0_14px_34px_rgba(15,23,42,0.12)] md:max-w-[72%] ${
                       isOwn
-                        ? "border border-fuchsia-300/15 bg-[linear-gradient(135deg,rgba(236,72,153,0.22),rgba(79,70,229,0.38))] text-white backdrop-blur-xl"
-                        : "border border-white/10 bg-white/8 text-white backdrop-blur-xl"
+                        ? "border border-fuchsia-300/20 bg-[linear-gradient(135deg,rgba(236,72,153,0.18),rgba(79,70,229,0.28))] text-slate-900 backdrop-blur-xl dark:border-fuchsia-300/15 dark:bg-[linear-gradient(135deg,rgba(236,72,153,0.22),rgba(79,70,229,0.38))] dark:text-white"
+                        : "border border-slate-200/70 bg-white/65 text-slate-900 backdrop-blur-xl dark:border-white/10 dark:bg-white/8 dark:text-white"
                     }`}
                   >
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_34%)]" />
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.22),transparent_34%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.12),transparent_34%)]" />
 
                     <div className="relative z-10">
                       <p className="whitespace-pre-wrap wrap-break-word text-[14px] leading-6">
@@ -623,7 +936,9 @@ export default function ChatWindow({
                       <div className="mt-2 flex items-center justify-end gap-2">
                         <span
                           className={`text-[11px] ${
-                            isOwn ? "text-pink-100/80" : "text-slate-300/70"
+                            isOwn
+                              ? "text-slate-700/80 dark:text-pink-100/80"
+                              : "text-slate-500/80 dark:text-slate-300/70"
                           }`}
                         >
                           {formatTime(message.createdAt)}
@@ -640,24 +955,25 @@ export default function ChatWindow({
           </motion.div>
         )}
 
+        {/* owner pending actions */}
         <AnimatePresence>
           {conversation.status === "pending" && isOwner && (
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 18 }}
-              className="mt-5 rounded-3xl border border-amber-300/15 bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(180,83,9,0.08))] p-5 shadow-[0_16px_38px_rgba(0,0,0,0.12)] backdrop-blur-xl"
+              className="mt-5 rounded-3xl border border-amber-300/25 bg-[linear-gradient(135deg,rgba(251,191,36,0.14),rgba(180,83,9,0.08))] p-5 shadow-[0_16px_38px_rgba(245,158,11,0.10)] backdrop-blur-xl dark:border-amber-300/15 dark:bg-[linear-gradient(135deg,rgba(251,191,36,0.12),rgba(180,83,9,0.08))] dark:shadow-[0_16px_38px_rgba(0,0,0,0.12)]"
             >
-              <div className="mb-3 flex items-center gap-2 text-amber-200">
+              <div className="mb-3 flex items-center gap-2 text-amber-700 dark:text-amber-200">
                 <motion.div variants={floatSoft} animate="animate">
                   <Clock3 className="h-5 w-5" />
                 </motion.div>
-                <h4 className="text-base font-bold text-white">
+                <h4 className="text-base font-bold text-slate-900 dark:text-white">
                   Pending request
                 </h4>
               </div>
 
-              <p className="text-sm leading-6 text-slate-200">
+              <p className="text-sm leading-6 text-slate-700 dark:text-slate-200">
                 Accept to unlock the full conversation or reject to close this
                 request.
               </p>
@@ -689,13 +1005,14 @@ export default function ChatWindow({
           )}
         </AnimatePresence>
 
+        {/* claimant waiting */}
         <AnimatePresence>
           {conversation.status === "pending" && !isOwner && (
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 18 }}
-              className="mt-5 flex items-center gap-2 rounded-[20px] border border-blue-300/15 bg-blue-400/8 p-4 text-sm text-blue-100 shadow-[0_10px_26px_rgba(0,0,0,0.10)] backdrop-blur-md"
+              className="mt-5 flex items-center gap-2 rounded-[20px] border border-sky-200/70 bg-white/55 p-4 text-sm text-sky-700 shadow-[0_10px_26px_rgba(59,130,246,0.08)] backdrop-blur-md dark:border-blue-300/15 dark:bg-blue-400/8 dark:text-blue-100 dark:shadow-[0_10px_26px_rgba(0,0,0,0.10)]"
             >
               <Clock3 className="h-4 w-4" />
               Waiting for the report owner to respond.
@@ -703,13 +1020,14 @@ export default function ChatWindow({
           )}
         </AnimatePresence>
 
+        {/* rejected */}
         <AnimatePresence>
           {conversation.status === "rejected" && (
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 18 }}
-              className="mt-5 flex items-center gap-2 rounded-[20px] border border-rose-300/15 bg-rose-400/8 p-4 text-sm text-rose-100 shadow-[0_10px_26px_rgba(0,0,0,0.10)] backdrop-blur-md"
+              className="mt-5 flex items-center gap-2 rounded-[20px] border border-rose-200/70 bg-white/55 p-4 text-sm text-rose-700 shadow-[0_10px_26px_rgba(244,63,94,0.08)] backdrop-blur-md dark:border-rose-300/15 dark:bg-rose-400/8 dark:text-rose-100 dark:shadow-[0_10px_26px_rgba(0,0,0,0.10)]"
             >
               <XCircle className="h-4 w-4" />
               This request was rejected. You cannot send more messages here.
@@ -718,15 +1036,16 @@ export default function ChatWindow({
         </AnimatePresence>
       </div>
 
+      {/* input */}
       {conversation.status === "accepted" && (
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 border-t border-white/10 bg-white/6 px-3 pb-3 pt-3 backdrop-blur-xl md:px-4 md:pb-4"
+          className="relative z-10 border-t border-slate-200/70 bg-white/45 px-3 pb-3 pt-3 backdrop-blur-xl dark:border-white/10 dark:bg-white/6 md:px-4 md:pb-4"
         >
           <div className="flex items-end gap-3">
-            <div className="flex flex-1 items-end gap-3 rounded-[22px] border border-white/10 bg-white/8 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.12)] backdrop-blur-md transition-all duration-300 focus-within:border-pink-300/25">
-              <MessageSquareText className="mb-1 h-5 w-5 text-pink-200" />
+            <div className="flex flex-1 items-end gap-3 rounded-[22px] border border-slate-200/70 bg-white/65 px-4 py-3 shadow-[0_8px_30px_rgba(59,130,246,0.08)] backdrop-blur-md transition-all duration-300 focus-within:border-pink-300/40 dark:border-white/10 dark:bg-white/8 dark:shadow-[0_8px_30px_rgba(0,0,0,0.12)] dark:focus-within:border-pink-300/25">
+              <MessageSquareText className="mb-1 h-5 w-5 text-sky-600 dark:text-pink-200" />
 
               <textarea
                 rows={1}
@@ -734,7 +1053,7 @@ export default function ChatWindow({
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message..."
-                className="max-h-28 flex-1 resize-none bg-transparent text-[14px] leading-6 text-white outline-none placeholder:text-slate-300"
+                className="max-h-28 flex-1 resize-none bg-transparent text-[14px] leading-6 text-slate-900 outline-none placeholder:text-slate-500 dark:text-white dark:placeholder:text-slate-300"
               />
             </div>
 
