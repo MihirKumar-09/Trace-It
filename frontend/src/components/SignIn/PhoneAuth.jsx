@@ -87,22 +87,25 @@ export default function PhoneAuth() {
                 Mobile Number
               </label>
 
-              <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm transition-all duration-300 focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-100 hover:border-slate-300">
-                <motion.span
-                  whileHover={{ scale: 1.08 }}
-                  className="text-slate-400"
-                >
+              <div
+                className="group flex items-center gap-3 rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 
+dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]
+focus-within:border-blue-400/60 focus-within:ring-4 focus-within:ring-blue-200/40 
+dark:focus-within:border-cyan-400/40 dark:focus-within:ring-cyan-400/10"
+              >
+                <motion.span className="text-slate-500 dark:text-slate-400">
                   <Phone size={18} />
                 </motion.span>
 
-                <span className="text-sm font-semibold text-slate-500">
+                <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">
                   +91
                 </span>
 
                 <input
                   type="tel"
                   placeholder="Enter mobile number"
-                  className="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+                  className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 outline-none 
+    dark:text-white dark:placeholder:text-slate-500"
                   value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value.replace(/\D/g, ""));
@@ -155,12 +158,13 @@ export default function PhoneAuth() {
                 Enter OTP
               </label>
 
-              <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm transition-all duration-300 focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-100 hover:border-slate-300">
-                <motion.span
-                  animate={{ scale: [1, 1.08, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.8 }}
-                  className="text-slate-400"
-                >
+              <div
+                className="group flex items-center gap-3 rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 
+dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]
+focus-within:border-blue-400/60 focus-within:ring-4 focus-within:ring-blue-200/40 
+dark:focus-within:border-cyan-400/40 dark:focus-within:ring-cyan-400/10"
+              >
+                <motion.span className="text-slate-500 dark:text-slate-400">
                   <ShieldCheck size={18} />
                 </motion.span>
 
@@ -168,7 +172,8 @@ export default function PhoneAuth() {
                   type="text"
                   maxLength={6}
                   placeholder="Enter 6-digit OTP"
-                  className="w-full bg-transparent text-center text-base tracking-[0.35em] text-slate-800 placeholder:text-slate-400 outline-none"
+                  className="w-full bg-transparent text-center text-base tracking-[0.35em] text-slate-900 placeholder:text-slate-400 outline-none 
+    dark:text-white dark:placeholder:text-slate-500"
                   value={otp}
                   onChange={(e) => {
                     setOtp(e.target.value.replace(/\D/g, ""));
