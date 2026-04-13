@@ -25,14 +25,14 @@ export default function MyLostItemsSection() {
     const value = status?.toLowerCase();
 
     if (value === "closed" || value === "claimed") {
-      return "border-emerald-400/20 bg-emerald-400/10 text-emerald-200";
+      return "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-300";
     }
 
     if (value === "open" || value === "active") {
-      return "border-rose-400/20 bg-rose-400/10 text-rose-200";
+      return "border-rose-500/20 bg-rose-500/10 text-rose-600 dark:text-rose-300";
     }
 
-    return "border-white/10 bg-white/5 text-white/70";
+    return "border-slate-300/60 bg-slate-200/60 text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70";
   };
 
   const formatDate = (dateValue) => {
@@ -80,35 +80,67 @@ export default function MyLostItemsSection() {
     return `${months} month ago`;
   };
 
+  const floatingBlob = {
+    animate: {
+      x: [0, 30, -20, 0],
+      y: [0, -30, 20, 0],
+      scale: [1, 1.08, 0.94, 1],
+    },
+    transition: {
+      duration: 12,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  };
+
   if (loading) {
     return (
-      <section className="relative min-h-[70vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute -left-10 top-0 h-72 w-72 rounded-full bg-rose-400/10 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-orange-400/10 blur-3xl" />
-        </div>
+      <section className="relative min-h-[70vh] overflow-hidden rounded-4xl">
+        {/* animated background */}
+        <div className="absolute inset-0 overflow-hidden rounded-4xl bg-[linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,245,247,0.9),rgba(255,248,240,0.92))] dark:bg-[linear-gradient(135deg,#07111f,#0c1729,#111827)]" />
+
+        <motion.div
+          variants={floatingBlob}
+          animate="animate"
+          className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-rose-400/25 blur-3xl dark:bg-rose-500/20"
+        />
+        <motion.div
+          variants={floatingBlob}
+          animate="animate"
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-orange-300/25 blur-3xl dark:bg-orange-400/10"
+        />
+        <motion.div
+          variants={floatingBlob}
+          animate="animate"
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-cyan-300/25 blur-3xl dark:bg-cyan-400/10"
+        />
+
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.55),transparent_40%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_30%)]" />
 
         <div className="relative flex min-h-[70vh] items-center justify-center px-4">
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative flex w-full max-w-md flex-col items-center rounded-[30px] border border-white/10 bg-white/4 px-8 py-12 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl"
+            initial={{ opacity: 0, scale: 0.96, y: 18 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="relative flex w-full max-w-md flex-col items-center overflow-hidden rounded-[30px] border border-white/50 bg-white/70 px-8 py-12 shadow-[0_20px_70px_rgba(15,23,42,0.14)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
           >
-            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-rose-300/80 to-transparent" />
+            <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-rose-400/80 to-transparent" />
 
-            <div className="relative mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-rose-300/20 bg-rose-400/10">
+            <div className="relative mb-5 flex h-20 w-20 items-center justify-center rounded-full border border-rose-300/40 bg-white/60 shadow-[0_10px_30px_rgba(244,63,94,0.15)] dark:border-rose-300/20 dark:bg-rose-500/10">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
-                className="absolute h-20 w-20 rounded-full border-[3px] border-white/10 border-t-rose-300"
+                className="absolute h-20 w-20 rounded-full border-[3px] border-rose-200/40 border-t-rose-500 dark:border-white/10 dark:border-t-rose-300"
               />
-              <PackageSearch className="h-9 w-9 text-rose-200" />
+              <PackageSearch className="h-9 w-9 text-rose-600 dark:text-rose-200" />
             </div>
 
-            <p className="text-lg font-semibold text-white">
+            <p className="text-lg font-semibold text-slate-900 dark:text-white">
               Loading your lost reports...
             </p>
-            <p className="mt-2 text-sm text-white/60">
+            <p className="mt-2 text-sm text-slate-600 dark:text-white/60">
               Fetching your report history
             </p>
           </motion.div>
@@ -118,45 +150,72 @@ export default function MyLostItemsSection() {
   }
 
   return (
-    <section className="relative space-y-6">
+    <section className="relative space-y-6 overflow-hidden rounded-[34px]">
+      {/* main animated premium background */}
+      <div className="absolute inset-0 -z-10 overflow-hidden rounded-[34px] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(255,245,247,0.92),rgba(255,250,240,0.95))] dark:bg-[linear-gradient(135deg,#07111f_0%,#0b1220_30%,#111827_70%,#1f2937_100%)]" />
+
+      <motion.div
+        variants={floatingBlob}
+        animate="animate"
+        className="absolute -left-20 top-0 -z-10 h-80 w-80 rounded-full bg-rose-400/20 blur-3xl dark:bg-rose-500/15"
+      />
+      <motion.div
+        variants={floatingBlob}
+        animate="animate"
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute right-0 top-10 -z-10 h-96 w-96 rounded-full bg-orange-300/20 blur-3xl dark:bg-orange-400/10"
+      />
+      <motion.div
+        variants={floatingBlob}
+        animate="animate"
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-0 left-1/4 -z-10 h-80 w-80 rounded-full bg-cyan-300/20 blur-3xl dark:bg-cyan-400/10"
+      />
+      <motion.div
+        animate={{ opacity: [0.35, 0.55, 0.35] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.5),transparent_22%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.35),transparent_24%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.10),transparent_20%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.10),transparent_25%)]"
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/4 p-5 shadow-[0_10px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl md:p-6"
+        className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/65 p-5 shadow-[0_16px_50px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_40px_rgba(0,0,0,0.28)] md:p-6"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.10),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(249,115,22,0.10),transparent_30%)]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-rose-300/70 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.10),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(249,115,22,0.10),transparent_30%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(244,63,94,0.12),transparent_24%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.10),transparent_30%)]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-rose-400/70 to-transparent" />
 
         <div className="relative flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-300/15 bg-rose-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-rose-200">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-rose-300/40 bg-white/70 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-rose-600 shadow-sm dark:border-rose-300/15 dark:bg-rose-500/10 dark:text-rose-200">
               <Search size={14} />
               Lost Reports
             </div>
 
-            <h2 className="text-2xl font-bold tracking-tight text-white md:text-4xl">
+            <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
               My Lost Items
             </h2>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/65 md:text-base">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 dark:text-white/65 md:text-base">
               Track every lost item report you have submitted. Review status,
               location, timeline, and contact details from one place.
             </p>
           </div>
 
           <motion.div
-            whileHover={{ y: -2, scale: 1.02 }}
-            className="inline-flex w-fit items-center gap-3 rounded-2xl border border-white/10 bg-white/6 px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
+            whileHover={{ y: -3, scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 260, damping: 18 }}
+            className="inline-flex w-fit items-center gap-3 rounded-2xl border border-white/60 bg-white/75 px-4 py-3 shadow-[0_12px_35px_rgba(15,23,42,0.10)] backdrop-blur-xl dark:border-white/10 dark:bg-white/6 dark:shadow-[0_8px_30px_rgba(0,0,0,0.18)]"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-rose-400/20 to-orange-400/20 text-rose-200 shadow-[0_0_25px_rgba(244,63,94,0.15)]">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(244,63,94,0.15),rgba(249,115,22,0.15))] text-rose-600 shadow-[0_0_25px_rgba(244,63,94,0.10)] dark:text-rose-200 dark:shadow-[0_0_25px_rgba(244,63,94,0.15)]">
               <FolderOpen size={20} />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-white/45">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-white/45">
                 Total Lost
               </p>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">
                 {String(lostReports.length).padStart(2, "0")}
               </p>
             </div>
@@ -169,19 +228,19 @@ export default function MyLostItemsSection() {
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-[30px] border border-dashed border-white/10 bg-white/4 px-6 py-14 text-center shadow-[0_14px_45px_rgba(0,0,0,0.22)] backdrop-blur-xl"
+          className="relative overflow-hidden rounded-[30px] border border-dashed border-slate-300/70 bg-white/65 px-6 py-14 text-center shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_14px_45px_rgba(0,0,0,0.22)]"
         >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,63,94,0.08),transparent_28%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(244,63,94,0.08),transparent_28%)] dark:bg-[radial-gradient(circle_at_top,rgba(244,63,94,0.08),transparent_28%)]" />
 
-          <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-3xl border border-white/10 bg-white/6 text-rose-200">
+          <div className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-3xl border border-slate-200 bg-white text-rose-500 shadow-[0_10px_30px_rgba(244,63,94,0.10)] dark:border-white/10 dark:bg-white/6 dark:text-rose-200">
             <ShieldAlert size={28} />
           </div>
 
-          <h3 className="mt-5 text-2xl font-bold text-white">
+          <h3 className="mt-5 text-2xl font-bold text-slate-900 dark:text-white">
             No lost reports yet
           </h3>
 
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-white/55 md:text-base">
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-600 dark:text-white/55 md:text-base">
             You have not created any lost item reports yet. Once you submit a
             lost report, it will appear here with full details and status
             tracking.
@@ -199,26 +258,37 @@ export default function MyLostItemsSection() {
                 delay: index * 0.06,
                 ease: "easeOut",
               }}
-              whileHover={{ y: -6, scale: 1.01 }}
-              className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/4 p-5 shadow-[0_14px_40px_rgba(0,0,0,0.22)] backdrop-blur-xl md:p-6"
+              whileHover={{ y: -7, scale: 1.01 }}
+              className="group relative overflow-hidden rounded-[30px] border border-white/60 bg-white/70 p-5 shadow-[0_18px_45px_rgba(15,23,42,0.10)] backdrop-blur-2xl dark:border-white/10 dark:bg-white/5 dark:shadow-[0_14px_40px_rgba(0,0,0,0.22)] md:p-6"
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)] opacity-0 transition duration-500 group-hover:opacity-100" />
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent opacity-50" />
-              <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-rose-400/10 blur-2xl" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.7),transparent_30%)] opacity-0 transition duration-500 group-hover:opacity-100 dark:bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_30%)]" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-rose-300/70 to-transparent opacity-70" />
+              <motion.div
+                animate={{
+                  x: [0, 8, -8, 0],
+                  y: [0, -6, 6, 0],
+                }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-rose-300/20 blur-2xl dark:bg-rose-400/10"
+              />
 
               <div className="relative flex flex-col gap-5">
                 <div className="flex items-start gap-4">
-                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
+                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(15,23,42,0.08)] dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_30px_rgba(0,0,0,0.18)]">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                     />
                   </div>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center rounded-full border border-rose-400/20 bg-rose-400/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-rose-200">
+                      <span className="inline-flex items-center rounded-full border border-rose-500/20 bg-rose-500/10 px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-rose-600 dark:text-rose-200">
                         lost
                       </span>
 
@@ -231,17 +301,17 @@ export default function MyLostItemsSection() {
                       </span>
                     </div>
 
-                    <h3 className="mt-3 truncate text-xl font-bold text-white">
+                    <h3 className="mt-3 truncate text-xl font-bold text-slate-900 dark:text-white">
                       {item.name}
                     </h3>
 
-                    <p className="mt-1 text-sm text-white/50">
+                    <p className="mt-1 text-sm text-slate-500 dark:text-white/50">
                       {item.category || "Uncategorized"}
                       {item.color ? ` • ${item.color}` : ""}
                       {item.model ? ` • ${item.model}` : ""}
                     </p>
 
-                    <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/6 px-2.5 py-1 text-xs text-cyan-200">
+                    <div className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-cyan-400/20 bg-cyan-500/10 px-2.5 py-1 text-xs text-cyan-700 dark:text-cyan-200">
                       <Clock3 size={13} />
                       {getTimeAgo(item.createdAt)}
                     </div>
@@ -249,72 +319,87 @@ export default function MyLostItemsSection() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-3 shadow-sm dark:border-white/10 dark:bg-white/5">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
                       Lost Location
                     </p>
-                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/80">
-                      <MapPin size={15} className="text-rose-200" />
+                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-slate-700 dark:text-white/80">
+                      <MapPin
+                        size={15}
+                        className="text-rose-500 dark:text-rose-200"
+                      />
                       {item.location?.city || "Unknown city"}
                       {item.location?.area ? `, ${item.location.area}` : ""}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-3 shadow-sm dark:border-white/10 dark:bg-white/5">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
                       Lost On
                     </p>
-                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/80">
-                      <CalendarDays size={15} className="text-cyan-200" />
+                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-slate-700 dark:text-white/80">
+                      <CalendarDays
+                        size={15}
+                        className="text-cyan-600 dark:text-cyan-200"
+                      />
                       {formatDate(item.dateTime)}
                     </p>
-                    <p className="mt-1 inline-flex items-center gap-2 text-sm text-white/55">
-                      <Clock3 size={15} className="text-cyan-200" />
+                    <p className="mt-1 inline-flex items-center gap-2 text-sm text-slate-500 dark:text-white/55">
+                      <Clock3
+                        size={15}
+                        className="text-cyan-600 dark:text-cyan-200"
+                      />
                       {formatTime(item.dateTime)}
                     </p>
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-white/10 dark:bg-white/5">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
                     Description
                   </p>
-                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-white/65">
+                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-white/65">
                     {item.description || "No description available."}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-3 shadow-sm dark:border-white/10 dark:bg-white/5">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
                       Contact Email
                     </p>
-                    <p className="mt-2 inline-flex items-center gap-2 break-all text-sm text-white/80">
-                      <Mail size={15} className="text-blue-200" />
+                    <p className="mt-2 inline-flex items-center gap-2 break-all text-sm text-slate-700 dark:text-white/80">
+                      <Mail
+                        size={15}
+                        className="text-blue-600 dark:text-blue-200"
+                      />
                       {item.contact?.email || "Not provided"}
                     </p>
                   </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
-                    <p className="text-[11px] uppercase tracking-[0.16em] text-white/40">
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-3 shadow-sm dark:border-white/10 dark:bg-white/5">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 dark:text-white/40">
                       Contact Phone
                     </p>
-                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-white/80">
-                      <Phone size={15} className="text-emerald-200" />
+                    <p className="mt-2 inline-flex items-center gap-2 text-sm text-slate-700 dark:text-white/80">
+                      <Phone
+                        size={15}
+                        className="text-emerald-600 dark:text-emerald-200"
+                      />
                       {item.contact?.phone || "Not provided"}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-xs uppercase tracking-[0.18em] text-white/40">
+                  <div className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-white/40">
                     Report ID: {item._id?.slice(-6) || "N/A"}
                   </div>
 
                   {item?._id && (
                     <Link
                       to={`/lostItem/${item._id}`}
-                      className="group/link inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/6 px-4 py-2.5 text-sm font-medium text-white/80 transition hover:border-cyan-300/20 hover:bg-cyan-400/10 hover:text-cyan-200"
+                      className="group/link inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-400/40 hover:bg-cyan-50 hover:text-cyan-700 dark:border-white/10 dark:bg-white/6 dark:text-white/80 dark:hover:border-cyan-300/20 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-200"
                     >
                       View Details
                       <ArrowUpRight
