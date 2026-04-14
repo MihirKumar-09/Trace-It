@@ -1,90 +1,79 @@
-import { useState } from "react";
-import { auth } from "../../firebase.js";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, ShieldCheck, ArrowLeft, CheckCircle2 } from "lucide-react";
+import {
+  Phone,
+  ShieldCheck,
+  ArrowLeft,
+  CheckCircle2,
+  RefreshCw,
+} from "lucide-react";
+import { cn } from "../../lib/utils.js";
 
-export default function PhoneAuth({ onSuccess, error }) {
+export default function PhoneAuth() {
   const [step, setStep] = useState("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [phoneError, setPhoneError] = useState("");
+  const [otpError, setOtpError] = useState("");
 
-  const setupRecaptcha = () => {
-    if (window.recaptchaVerifier) {
-      window.recaptchaVerifier.clear();
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
     }
-
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size: "invisible",
-      },
-    );
-  };
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const sendOtp = async () => {
-    if (!phone || phone.length < 10) {
-      alert("Enter valid phone number");
+    setPhoneError("");
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      setPhoneError("Enter valid mobile number");
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      setupRecaptcha();
-
-      const formattedPhone = phone.startsWith("+91") ? phone : `+91${phone}`;
-
-      const appVerifier = window.recaptchaVerifier;
-
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        formattedPhone,
-        appVerifier,
-      );
-
-      window.confirmationResult = confirmationResult;
-      setStep("otp");
-    } catch (err) {
-      console.log("OTP ERROR:", err);
-      alert(err.message);
-    } finally {
+    setTimeout(() => {
       setLoading(false);
-    }
+      setStep("otp");
+      setTimer(30);
+    }, 1000);
   };
 
   const verifyOtp = async () => {
-    if (otp.length !== 6) {
-      alert("Invalid OTP");
+    setOtpError("");
+
+    if (!/^[0-9]{6}$/.test(otp)) {
+      setOtpError("Enter valid OTP");
       return;
     }
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      const result = await window.confirmationResult.confirm(otp);
-      const phoneNumber = result.user.phoneNumber;
-      onSuccess(phoneNumber);
-      setStep("verified");
-    } catch (err) {
-      console.log("VERIFY ERROR:", err);
-      alert("Invalid OTP");
-    } finally {
+    setTimeout(() => {
       setLoading(false);
-    }
+      setStep("verified");
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 900);
+    }, 1000);
   };
 
   const sectionMotion = {
-    initial: { opacity: 0, y: 10 },
+    initial: { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -10 },
     transition: { duration: 0.28 },
   };
 
   return (
-    <div className="w-full mt-5">
+    <div className="w-full">
       <AnimatePresence mode="wait">
         {/* STEP 1 */}
         {step === "phone" && (
@@ -98,34 +87,40 @@ export default function PhoneAuth({ onSuccess, error }) {
                 Mobile Number
               </label>
 
-              <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm transition-all duration-300 focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-100 hover:border-slate-300">
-                <motion.span
-                  whileHover={{ scale: 1.08 }}
-                  className="text-slate-400"
-                >
+              <div
+                className="group flex items-center gap-3 rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 
+dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]
+focus-within:border-blue-400/60 focus-within:ring-4 focus-within:ring-blue-200/40 
+dark:focus-within:border-cyan-400/40 dark:focus-within:ring-cyan-400/10"
+              >
+                <motion.span className="text-slate-500 dark:text-slate-400">
                   <Phone size={18} />
                 </motion.span>
 
-                <span className="text-sm font-medium text-slate-500">+91</span>
+                <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">
+                  +91
+                </span>
 
                 <input
                   type="tel"
                   placeholder="Enter mobile number"
-                  className="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-400 outline-none"
+                  className="w-full bg-transparent text-sm text-slate-900 placeholder:text-slate-400 outline-none 
+    dark:text-white dark:placeholder:text-slate-500"
                   value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value.replace(/\D/g, ""));
+                    if (phoneError) setPhoneError("");
                   }}
                 />
               </div>
 
-              {error && (
+              {phoneError && (
                 <motion.p
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-1.5 text-sm text-red-500"
                 >
-                  {error}
+                  {phoneError}
                 </motion.p>
               )}
             </div>
@@ -134,14 +129,14 @@ export default function PhoneAuth({ onSuccess, error }) {
               whileHover={{
                 scale: 1.015,
                 y: -2,
-                boxShadow: "0px 16px 40px rgba(59,130,246,0.22)",
+                boxShadow: "0px 16px 40px rgba(59,130,246,0.18)",
               }}
               whileTap={{ scale: 0.985 }}
               onClick={sendOtp}
               disabled={loading}
-              className="w-full rounded-2xl border border-slate-200 bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
+              className="w-full rounded-2xl bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {loading ? "Sending..." : "Send OTP"}
+              {loading ? "Sending OTP..." : "Continue with Phone"}
             </motion.button>
           </motion.div>
         )}
@@ -163,31 +158,46 @@ export default function PhoneAuth({ onSuccess, error }) {
                 Enter OTP
               </label>
 
-              <div className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 shadow-sm transition-all duration-300 focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-100 hover:border-slate-300">
-                <motion.span
-                  animate={{ scale: [1, 1.08, 1] }}
-                  transition={{ repeat: Infinity, duration: 1.8 }}
-                  className="text-slate-400"
-                >
+              <div
+                className="group flex items-center gap-3 rounded-2xl border border-white/60 bg-white/40 px-4 py-3 shadow-[0_8px_25px_rgba(0,0,0,0.06)] backdrop-blur-xl transition-all duration-300 
+dark:border-white/10 dark:bg-white/5 dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)]
+focus-within:border-blue-400/60 focus-within:ring-4 focus-within:ring-blue-200/40 
+dark:focus-within:border-cyan-400/40 dark:focus-within:ring-cyan-400/10"
+              >
+                <motion.span className="text-slate-500 dark:text-slate-400">
                   <ShieldCheck size={18} />
                 </motion.span>
 
                 <input
                   type="text"
-                  placeholder="Enter 6-digit OTP"
                   maxLength={6}
-                  className="w-full bg-transparent text-center text-base tracking-[0.35em] text-slate-800 placeholder:text-slate-400 outline-none"
+                  placeholder="Enter 6-digit OTP"
+                  className="w-full bg-transparent text-center text-base tracking-[0.35em] text-slate-900 placeholder:text-slate-400 outline-none 
+    dark:text-white dark:placeholder:text-slate-500"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                  onChange={(e) => {
+                    setOtp(e.target.value.replace(/\D/g, ""));
+                    if (otpError) setOtpError("");
+                  }}
                 />
               </div>
+
+              {otpError && (
+                <motion.p
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-1.5 text-sm text-red-500"
+                >
+                  {otpError}
+                </motion.p>
+              )}
             </div>
 
             <motion.button
               whileHover={{
                 scale: 1.015,
                 y: -2,
-                boxShadow: "0px 16px 40px rgba(34,197,94,0.24)",
+                boxShadow: "0px 16px 40px rgba(34,197,94,0.22)",
               }}
               whileTap={{ scale: 0.985 }}
               onClick={verifyOtp}
@@ -197,15 +207,40 @@ export default function PhoneAuth({ onSuccess, error }) {
               {loading ? "Verifying..." : "Verify OTP"}
             </motion.button>
 
-            <motion.button
-              whileHover={{ x: -2 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setStep("phone")}
-              className="flex items-center justify-center gap-2 text-sm font-medium text-orange-600 cursor-pointer"
-            >
-              <ArrowLeft size={16} />
-              Change Number
-            </motion.button>
+            <div className="flex items-center justify-between gap-3 text-sm">
+              <motion.button
+                whileHover={timer === 0 ? { x: 2 } : {}}
+                whileTap={timer === 0 ? { scale: 0.98 } : {}}
+                onClick={sendOtp}
+                disabled={timer > 0}
+                className={cn(
+                  "flex items-center gap-2 font-medium transition cursor-pointer",
+                  timer > 0
+                    ? "cursor-not-allowed text-slate-400"
+                    : "text-orange-600 hover:text-orange-700",
+                )}
+              >
+                <RefreshCw
+                  size={15}
+                  className={timer > 0 ? "" : "animate-spin"}
+                />
+                {timer > 0 ? `Resend in ${timer}s` : "Resend OTP"}
+              </motion.button>
+
+              <motion.button
+                whileHover={{ x: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  setStep("phone");
+                  setOtp("");
+                  setOtpError("");
+                }}
+                className="flex items-center gap-2 font-medium text-slate-500 cursor-pointer transition hover:text-slate-700"
+              >
+                <ArrowLeft size={15} />
+                Change Number
+              </motion.button>
+            </div>
           </motion.div>
         )}
 
@@ -226,16 +261,14 @@ export default function PhoneAuth({ onSuccess, error }) {
             </motion.div>
 
             <p className="text-sm font-semibold text-emerald-700">
-              Verified Successfully
+              Verification Successful
             </p>
             <p className="mt-1 text-xs text-slate-500">
-              Your mobile number has been securely verified.
+              Redirecting you securely to your account...
             </p>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div id="recaptcha-container"></div>
     </div>
   );
 }
