@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { MapPin, MoveRight, Sparkles, Clock3 } from "lucide-react";
 import { cn } from "../../lib/utils.js";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { API_URL } from "../../lib/api.js";
 
@@ -170,28 +170,15 @@ function DarkMistBackground() {
   );
 }
 
-export default function SimilarReport({ currentReport }) {
+export default function SimilarReport() {
+  const { id } = useParams();
   const [allReports, setAllReport] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!currentReport?._id) {
-          setAllReport([]);
-          setLoading(false);
-          return;
-        }
-
-        const oppositeType =
-          currentReport.reportType === "lost" ? "found" : "lost";
-
         const res = await fetch(`${API_URL}/reports/allReports?status=open`);
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch similar reports");
-        }
-
         const data = await res.json();
         setAllReport(data.allReports || []);
       } catch (err) {
@@ -203,13 +190,21 @@ export default function SimilarReport({ currentReport }) {
     };
 
     fetchData();
-  }, [currentReport]);
+  }, []);
+
+  const currentReport = useMemo(() => {
+    if (!id) return null;
+    return allReports.find((report) => report._id === id) || null;
+  }, [allReports, id]);
 
   const similarReports = useMemo(() => {
     if (!currentReport?._id) return [];
 
+    const oppositeType = currentReport.reportType === "lost" ? "found" : "lost";
+
     return allReports.filter((report) => {
-      const notCurrentReport = report._id !== currentReport._id;
+      if (report._id === currentReport._id) return false;
+      if (report.reportType !== oppositeType) return false;
 
       const sameCategory =
         report.category?.trim().toLowerCase() ===
@@ -219,7 +214,7 @@ export default function SimilarReport({ currentReport }) {
         report.location?.city?.trim().toLowerCase() ===
         currentReport.location?.city?.trim().toLowerCase();
 
-      return notCurrentReport && sameCategory && sameCity;
+      return sameCategory && sameCity;
     });
   }, [allReports, currentReport]);
 
@@ -257,7 +252,7 @@ export default function SimilarReport({ currentReport }) {
     },
   };
 
-  if (!currentReport?._id || loading || similarReports.length === 0) {
+  if (loading || !currentReport?._id || similarReports.length === 0) {
     return null;
   }
 
@@ -370,7 +365,7 @@ export default function SimilarReport({ currentReport }) {
                     <div className="mt-2 flex items-center gap-2 text-sm text-white/90">
                       <MapPin size={16} />
                       <span>
-                        {report.location.city}, {report.location.area}
+                        {report.location?.city}, {report.location?.area}
                       </span>
                     </div>
                   </div>
