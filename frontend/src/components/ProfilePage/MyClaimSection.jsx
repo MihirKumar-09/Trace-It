@@ -15,6 +15,7 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "../../lib/axios";
+import { API_URL } from "../../lib/api";
 
 function getStatusStyles(status) {
   switch (status) {
@@ -173,7 +174,7 @@ export default function MyClaimSection() {
     try {
       setLoading(true);
 
-      const res = await axios.get("/reports/claims/my-claims", {
+      const res = await axios.get(`${API_URL}/reports/claims/my-claims`, {
         withCredentials: true,
       });
 

@@ -4,6 +4,7 @@ import PhoneAuth from "./PhoneAuth";
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { API_URL } from "../../lib/api";
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -98,7 +99,7 @@ export default function RightSection() {
       if (hasError) return;
 
       const res = await axios.post(
-        "http://localhost:8080/auth/phone-login",
+        `${API_URL}/auth/phone-login`,
         {
           phone,
           name,
@@ -323,7 +324,7 @@ export default function RightSection() {
               whileHover={{ scale: 1.015, y: -2 }}
               whileTap={{ scale: 0.985 }}
               onClick={() => {
-                window.location.href = "http://localhost:8080/auth/google";
+                window.location.href = `${API_URL}/auth/google`;
               }}
               className="mt-6 flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:shadow-md
               dark:border-white/10 dark:bg-white/6 dark:text-white"

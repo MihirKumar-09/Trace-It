@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { cn } from "../../lib/utils.js";
 import { Link } from "react-router-dom";
+import { API_URL } from "../../lib/api.js";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -37,7 +38,7 @@ export default function RecentFound() {
     const fetchData = async () => {
       try {
         const res = await fetch(
-          "http://192.168.1.8:8080/reports/allReports?reportType=found&limit=8",
+          `${API_URL}/reports/allReports?reportType=found&limit=8`,
         );
         if (!res.ok) {
           throw new Error("Failed");

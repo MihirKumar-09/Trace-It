@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const ReportContext = createContext();
+import { API_URL } from "../lib/api";
 
 export const ReportProvider = ({ children }) => {
   const [reports, setReports] = useState([]);
@@ -11,7 +12,7 @@ export const ReportProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:8080/reports/my-reports", {
+      const res = await fetch(`${API_URL}/reports/my-reports`, {
         method: "GET",
         credentials: "include",
       });

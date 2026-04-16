@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useReports } from "../../Context/ReportContext";
+import { API_URL } from "../../lib/api";
 
 // create a initial form;
 const initialForm = {
@@ -376,7 +377,7 @@ export default function LostReportForm() {
       formData.append("email", form.email.trim());
       formData.append("image", form.image);
 
-      const res = await fetch("http://localhost:8080/reports/newLostReport", {
+      const res = await fetch(`${API_URL}/reports/newLostReport`, {
         method: "POST",
         body: formData,
         credentials: "include",

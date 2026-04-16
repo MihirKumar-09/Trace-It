@@ -3,6 +3,7 @@ import { MapPin, MoveRight, Sparkles, Clock3 } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { API_URL } from "../../lib/api.js";
 
 function LightLeafBackground() {
   const leaves = useMemo(
@@ -175,9 +176,7 @@ export default function SimilarReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          "http://192.168.1.8:8080/reports/allReports?status=open",
-        );
+        const res = await fetch(`${API_URL}/reports/allReports?status=open`);
         if (!res.ok) {
           throw new Error("Failed");
         }

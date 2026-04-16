@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AnimatePresence, motion } from "framer-motion";
 import ClaimRequestModal from "../chat/ClaimRequestModal.jsx";
+import { API_URL } from "../../lib/api.js";
 
 function LightLeavesBackground() {
   const leaves = useMemo(
@@ -237,7 +238,7 @@ export default function DetailsSection({ productDetails }) {
       setIsDeleting(true);
 
       const res = await fetch(
-        `http://localhost:8080/reports/deleteReport/${productDetails._id}`,
+        `${API_URL}/reports/deleteReport/${productDetails._id}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -269,7 +270,7 @@ export default function DetailsSection({ productDetails }) {
 
     const checkFavorite = async () => {
       try {
-        const res = await fetch("http://localhost:8080/favorites", {
+        const res = await fetch(`${API_URL}/favorites`, {
           method: "GET",
           credentials: "include",
         });
@@ -306,7 +307,7 @@ export default function DetailsSection({ productDetails }) {
       setFavoriteLoading(true);
 
       const res = await fetch(
-        `http://localhost:8080/favorites/toggle/${productDetails._id}`,
+        `${API_URL}/favorites/toggle/${productDetails._id}`,
         {
           method: "POST",
           credentials: "include",
@@ -348,7 +349,7 @@ export default function DetailsSection({ productDetails }) {
   const handleStatusToggle = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8080/reports/updateStatus/${productDetails._id}`,
+        `${API_URL}/reports/updateStatus/${productDetails._id}`,
         {
           method: "PATCH",
           headers: {

@@ -1,6 +1,7 @@
 import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
+import { API_URL } from "../../lib/api";
 import {
   MapPin,
   CalendarDays,
@@ -114,7 +115,7 @@ export default function AllReportCards({ filters }) {
     try {
       setLoading(true);
 
-      let url = "http://localhost:8080/reports/allReports?limit=100";
+      let url = `${API_URL}/reports/allReports?limit=100`;
 
       if (type === "lost") {
         url += "&reportType=lost";

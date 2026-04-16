@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import axios from "../../lib/axios";
+import { API_URL } from "../../lib/api";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 24, scale: 0.98 },
@@ -339,7 +340,7 @@ export default function SettingSection() {
     try {
       setLoading(true);
 
-      const res = await axios.get("/auth/me", {
+      const res = await axios.get(`${API_URL}/auth/me`, {
         withCredentials: true,
       });
 
@@ -386,7 +387,7 @@ export default function SettingSection() {
         phone: form.phone,
       };
 
-      const res = await axios.put("/auth/update-profile", payload, {
+      const res = await axios.put(`${API_URL}/auth/update-profile`, payload, {
         withCredentials: true,
       });
 
@@ -412,7 +413,7 @@ export default function SettingSection() {
     try {
       setLoggingOut(true);
 
-      await axios.get("/auth/logout", {
+      await axios.get(`${API_URL}/auth/logout`, {
         withCredentials: true,
       });
 
@@ -429,7 +430,7 @@ export default function SettingSection() {
     try {
       setDeletingAccount(true);
 
-      await axios.delete("/auth/delete-account", {
+      await axios.delete(`${API_URL}/auth/delete-account`, {
         withCredentials: true,
       });
 

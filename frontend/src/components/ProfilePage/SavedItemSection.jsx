@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "../../lib/utils.js";
+import { API_URL } from "../../lib/api.js";
 
 function AnimatedBackground() {
   const particles = Array.from({ length: 14 });
@@ -128,7 +129,7 @@ export default function SavedItemSection() {
 
   const fetchFavorites = async () => {
     try {
-      const res = await fetch("http://localhost:8080/favorites", {
+      const res = await fetch(`${API_URL}/favorites`, {
         method: "GET",
         credentials: "include",
       });
@@ -161,13 +162,10 @@ export default function SavedItemSection() {
 
   const handleRemoveFavorite = async (reportId) => {
     try {
-      const res = await fetch(
-        `http://localhost:8080/favorites/toggle/${reportId}`,
-        {
-          method: "POST",
-          credentials: "include",
-        },
-      );
+      const res = await fetch(`${API_URL}/favorites/toggle/${reportId}`, {
+        method: "POST",
+        credentials: "include",
+      });
 
       const data = await res.json();
 

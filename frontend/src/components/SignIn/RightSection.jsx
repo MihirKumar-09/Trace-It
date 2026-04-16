@@ -2,6 +2,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Lock, ShieldCheck, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import PhoneAuth from "./PhoneAuth";
+import { API_URL } from "../../lib/api";
 
 export default function RightSection() {
   const containerVariants = {
@@ -300,7 +301,7 @@ export default function RightSection() {
               whileHover={{ scale: 1.015, y: -2 }}
               whileTap={{ scale: 0.985 }}
               onClick={() => {
-                window.location.href = "http://localhost:8080/auth/google";
+                window.location.href = `${API_URL}/auth/google`;
               }}
               className="mt-6 flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-white/8 dark:text-white"
             >

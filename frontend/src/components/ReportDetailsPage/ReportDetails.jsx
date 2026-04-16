@@ -5,6 +5,7 @@ import ImageSection from "./ImageSection";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SimilarReport from "./SimilarReport";
+import { API_URL } from "../../lib/api";
 export default function ReportDetails() {
   const [productDetails, setProductDetails] = useState(null);
   const { id } = useParams();
@@ -15,9 +16,7 @@ export default function ReportDetails() {
     setProductDetails(null);
     const fetchDetails = async () => {
       try {
-        const res = await fetch(
-          `http://192.168.1.8:8080/reports/lostItem/${id}`,
-        );
+        const res = await fetch(`${API_URL}/reports/lostItem/${id}`);
         if (!res.ok) {
           throw new Error("Failed to fetch");
         }

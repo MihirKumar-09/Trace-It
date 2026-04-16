@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../Context/AuthContext";
+import { API_URL } from "../lib/api";
 
 const SocketContext = createContext();
 
@@ -11,8 +12,9 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!user?._id) return;
 
-    const newSocket = io("http://localhost:8080", {
+    const newSocket = io(API_URL, {
       withCredentials: true,
+      transports: ["websocket"],
       query: {
         userId: user._id,
       },

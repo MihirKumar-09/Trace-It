@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useReports } from "../../Context/ReportContext";
+import { API_URL } from "../../lib/api";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 35 },
@@ -354,7 +355,7 @@ export default function FoundReportForm() {
       submitData.append("email", formData.email);
       submitData.append("image", image);
 
-      const res = await fetch("http://localhost:8080/reports/newFoundReport", {
+      const res = await fetch(`${API_URL}/reports/newFoundReport`, {
         method: "POST",
         body: submitData,
         credentials: "include",

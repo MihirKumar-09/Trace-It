@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { cn } from "../../lib/utils.js";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { API_URL } from "../../lib/api.js";
 
 function AnimatedRecentReportBackground() {
   const lightParticles = useMemo(
@@ -412,9 +413,7 @@ export default function RecentReport() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(
-          "http://192.168.1.8:8080/reports/allReports?limit=4",
-        );
+        const res = await fetch(`${API_URL}/reports/allReports?limit=4`);
         if (!res.ok) {
           throw new Error("Failed to fetch reports");
         }
