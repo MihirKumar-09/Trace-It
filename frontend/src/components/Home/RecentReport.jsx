@@ -511,11 +511,6 @@ export default function RecentReport() {
         className="relative grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4"
       >
         {allReports.map((report) => {
-          const reportLink =
-            report.reportType === "lost"
-              ? `/lostItem/${report._id}`
-              : `/foundItem/${report._id}`;
-
           return (
             <motion.div
               key={report._id}
@@ -614,7 +609,7 @@ export default function RecentReport() {
                   <div className="mb-4 h-px bg-linear-to-r from-transparent via-slate-300 to-transparent dark:via-white/10" />
 
                   {report.status !== "closed" ? (
-                    <Link to={reportLink}>
+                    <Link to={`/report/${report._id}`}>
                       <motion.div
                         whileHover={{ x: 4 }}
                         whileTap={{ scale: 0.97 }}

@@ -23,7 +23,7 @@ export default function AppRoute() {
       <Route index element={<HomePage />} />
       <Route path="/lost-item" element={<LostPage />} />
       <Route path="/found-item" element={<FoundPage />} />
-      <Route path="/lostItem/:id" element={<ReportDetails />} />
+      <Route path="/report/:id" element={<ReportDetails />} />
       <Route path="/signUp" element={<SignUp />} />
       <Route path="/signIn" element={<SignIn />} />
       <Route path="/reports/:type" element={<AllReportPage />} />

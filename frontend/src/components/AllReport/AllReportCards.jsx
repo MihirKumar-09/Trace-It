@@ -461,7 +461,7 @@ export default function AllReportCards({ filters }) {
                           Closed
                         </button>
                       ) : (
-                        <Link to={`/lostItem/${item._id}`}>
+                        <Link to={`/report/${item._id}`}>
                           <motion.button
                             whileHover={{ x: 2 }}
                             whileTap={{ scale: 0.96 }}

@@ -248,7 +248,7 @@ export default function RecentFound() {
                   </span>
 
                   {report.status !== "closed" ? (
-                    <Link to={`/lostItem/${report._id}`}>
+                    <Link to={`/report/${report._id}`}>
                       <motion.span
                         whileHover={{ x: 4 }}
                         className="flex cursor-pointer items-center gap-1 font-semibold text-[#3358D4] dark:text-blue-400"
