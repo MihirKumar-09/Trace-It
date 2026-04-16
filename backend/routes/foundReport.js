@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateNewFound } from "../controllers/foundController.js";
+import { CreateNewFound } from "../controllers/foundReportController.js";
 import upload from "../middleware/multer.js";
 import isLoggedIn from "../middleware/isLogin.js";
 
