@@ -40,8 +40,8 @@ export default function Navbar() {
   const [messageUnreadCount, setMessageUnreadCount] = useState(0);
   const { socket } = useSocket();
 
-  const { preference, setPreference } = useTheme();
-  const isDark = preference === "dark";
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
 
   const [searchText, setSearchText] = useState(
     searchParams.get("search") || "",
@@ -122,8 +122,7 @@ export default function Navbar() {
   };
 
   const handleThemeToggle = () => {
-    const nextTheme = isDark ? "light" : "dark";
-    setPreference(nextTheme);
+    setTheme(isDark ? "light" : "dark");
   };
 
   useEffect(() => {

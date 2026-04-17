@@ -10,39 +10,12 @@ export function ThemeProvider({ children }) {
       return savedTheme;
     }
 
-    if (savedTheme === "system") {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      return prefersDark ? "dark" : "light";
-    }
-
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-
-    return prefersDark ? "dark" : "light";
-  });
-
-  const [preference, setPreference] = useState(() => {
-    return localStorage.getItem("app-theme") || "system";
+    return "light";
   });
 
   useEffect(() => {
-    localStorage.setItem("app-theme", preference);
+    localStorage.setItem("app-theme", theme);
 
-    if (preference === "system") {
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)",
-      ).matches;
-      setTheme(prefersDark ? "dark" : "light");
-      return;
-    }
-
-    setTheme(preference);
-  }, [preference]);
-
-  useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -50,27 +23,12 @@ export function ThemeProvider({ children }) {
     }
   }, [theme]);
 
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const handleChange = (e) => {
-      if (preference === "system") {
-        setTheme(e.matches ? "dark" : "light");
-      }
-    };
-
-    media.addEventListener("change", handleChange);
-
-    return () => media.removeEventListener("change", handleChange);
-  }, [preference]);
-
   const value = useMemo(
     () => ({
       theme,
-      preference,
-      setPreference,
+      setTheme,
     }),
-    [theme, preference],
+    [theme],
   );
 
   return (
