@@ -16,14 +16,14 @@ const server = http.createServer(app);
 
 const PORT = 8080;
 const URI = process.env.MONGODB_URI;
+const isProduction = process.env.NODE_ENV === "production";
+
+app.set("trust proxy", 1);
 
 //!============CORS SETUP============
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", //Local dev
-      "https://lost-link-1.onrender.com",
-    ],
+    origin: ["http://localhost:5173", "https://lost-link-1.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   }),
@@ -44,7 +44,8 @@ app.use(
     }),
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     },
   }),
@@ -73,7 +74,6 @@ app.use("/reports", LostReportRoute);
 app.use("/reports", FoundReportRoute);
 app.use("/favorites", FavoriteRoute);
 
-// NEW ROUTES Register
 app.use("/conversations", ConversationRoute);
 app.use("/messages", MessageRoute);
 app.use("/notifications", NotificationRoute);
