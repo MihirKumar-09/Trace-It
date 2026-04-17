@@ -339,7 +339,7 @@ export default function RightSection() {
               Don&apos;t have an account?{" "}
               <a
                 className="font-semibold text-orange-600 transition hover:text-orange-700 dark:text-cyan-300 dark:hover:text-cyan-200"
-                href="http://localhost:5173/signUp"
+                href={`${API_URL}/signUp`}
               >
                 Sign up for free
               </a>

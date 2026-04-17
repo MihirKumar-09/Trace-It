@@ -454,7 +454,7 @@ export default function RightSection() {
               Already have an account?{" "}
               <a
                 className="font-semibold text-orange-600 transition hover:text-orange-700 dark:text-orange-300 dark:hover:text-orange-200"
-                href="http://localhost:5173/signin"
+                href={`${API_URL}/signin`}
               >
                 Sign In
               </a>
