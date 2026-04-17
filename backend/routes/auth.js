@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import isLogin from "../middleware/isLogin.js";
 import Report from "../models/reportSchema.js";
 import cloudinary from "../utils/uploadToCloudinary.js";
+import { API_URL } from "../../frontend/src/lib/api.js";
 
 //! Google SignUp and Login
 // Step 1 -> Login
@@ -20,7 +21,7 @@ router.get(
     failureRedirect: "/login",
   }),
   (req, res) => {
-    res.redirect("http://localhost:5173/auth-success"); // Frontend redirect(Store the path in local storage and redirect to that page)
+    res.redirect(`${process.env.CLIENT_URL}/auth-success`); // Frontend redirect(Store the path in local storage and redirect to that page)
   },
 );
 
